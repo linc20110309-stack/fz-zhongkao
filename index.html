@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>福州中考定向生查询工具</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 福州中考定向生查询</h1>
+      <p class="subtitle">福州老九所定向生分数查询</p>
+    </header>
+
+    <!-- 页签导航 -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-tab="dingxiang">定向生查询</button>
+    </nav>
+
+    <main>
+      <!-- 定向生查询 -->
+      <section id="tab-dingxiang" class="tab-content active">
+        <h2>福州老九所定向生分数查询</h2>
+        
+        <!-- 政策说明 -->
+        <div class="policy-info">
+          <h3>📋 定向生政策说明</h3>
+          <ul>
+            <li><strong>定向生定义：</strong>优质普通高中将部分招生指标定向分配到区域内各初中学校招收的学生</li>
+            <li><strong>降分幅度：</strong>定向生录取线比统招线低一定分值，具体以各校实际为准</li>
+            <li><strong>老九所：</strong>福州一中、二中、三中、四中、格致、八中、福高、附中、长乐一中</li>
+            <li><strong>分差含义：</strong>定向分 - 定转统分数，负值表示定向录取比统招更优惠</li>
+          </ul>
+        </div>
+        
+        <!-- 筛选条件 -->
+        <div class="filter-section">
+          <div class="filter-row">
+            <div class="form-group flex-1">
+              <label for="dxYearFilter">年份：</label>
+              <select id="dxYearFilter">
+                <option value="2025" selected>2025年</option>
+                <option value="2024">2024年</option>
+                <option value="2023">2023年</option>
+                <option value="2022">2022年</option>
+              </select>
+            </div>
+            
+            <div class="form-group flex-2">
+              <label for="juniorSchoolSearch">毕业初中：</label>
+              <div class="combobox-container">
+                <input type="text" id="juniorSchoolSearch" placeholder="输入学校名称搜索..." autocomplete="off" />
+                <input type="hidden" id="juniorSchoolValue" value="" />
+                <div id="juniorSchoolDropdown" class="combobox-dropdown hidden">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="filter-row">
+            <div class="form-group flex-1">
+              <label>目标高中（默认全选）：</label>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                <p>默认查询全部14所省一级达标高中（一中、二中、三中、三牧、华伦、时代、四中、格致、八中、福高、附中、屏东、十八中、长一等）</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="filter-actions">
+            <button id="dxSearchBtn" class="btn-primary">🔍 查询定向生数据</button>
+            <button id="dxResetBtn" class="btn-outline">重置筛选</button>
+          </div>
+        </div>
+
+        <!-- 结果统计 -->
+        <div id="dxResultStats" class="result-stats hidden">
+          <span>共找到 <strong id="dxResultCount">0</strong> 条记录</span>
+          <button id="copyResultBtn" class="copy-btn">📋 复制结果</button>
+        </div>
+
+        <!-- 排序控制 -->
+        <div id="dxSortControl" class="sort-control hidden">
+          <span>排序方式：</span>
+          <button class="sort-btn dx-sort-btn active" data-sort="score-desc">分数↓</button>
+          <button class="sort-btn dx-sort-btn" data-sort="score-asc">分数↑</button>
+          <button class="sort-btn dx-sort-btn" data-sort="year-desc">年份↓</button>
+          <button class="sort-btn dx-sort-btn" data-sort="year-asc">年份↑</button>
+        </div>
+
+        <!-- 定向生结果表格 -->
+        <div id="dxResultTable" class="table-container hidden">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>毕业初中</th>
+                <th>目标高中</th>
+                <th>年份</th>
+                <th>定向分</th>
+                <th>对应市排</th>
+                <th>定转统</th>
+                <th>分差</th>
+              </tr>
+            </thead>
+            <tbody id="dxResultTableBody">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 无结果提示 -->
+        <div id="dxNoResult" class="empty-state hidden">
+          <div class="empty-icon">🔍</div>
+          <h3>未找到符合条件的定向生数据</h3>
+          <p>请尝试调整筛选条件后重新查询</p>
+          <p class="text-hint">提示：</p>
+          <ul class="hint-list">
+            <li>检查初中学校名称是否正确</li>
+            <li>确认选择的年份有该学校的定向数据</li>
+            <li>某些学校在特定年份可能无定向名额</li>
+          </ul>
+        </div>
+
+        <!-- 数据说明 -->
+        <div class="data-note">
+          <p>⚠️ <strong>注意事项：</strong></p>
+          <ul>
+            <li>市排数据为AI拟合值，仅供参考娱乐</li>
+            <li>分差 = 定向分 - 定转统（负值表示定向分低于定转统）</li>
+            <li>"无定向录取"表示该初中该校当年无定向名额</li>
+            <li>实际录取情况以官方公布为准</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>⚠️ 本工具仅供参考，最终志愿填报请以官方发布为准</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
