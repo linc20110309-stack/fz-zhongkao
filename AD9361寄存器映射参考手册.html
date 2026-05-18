@@ -1,0 +1,3968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD9361寄存器映射参考手册 - 中文版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1a5f7a;
+            font-size: 28px;
+            padding: 20px;
+            border-bottom: 3px solid #1a5f7a;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            padding: 15px 10px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #1a5f7a;
+            margin: 25px 0 15px 0;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+        }
+        p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background-color: #fff;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px 6px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e8f4f8;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .toc h3 {
+            margin-top: 0;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 5px 0;
+        }
+        .toc a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .register-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 5px;
+        }
+        .register-description {
+            background-color: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #27ae60;
+        }
+        .equation {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-family: "Times New Roman", serif;
+            border-radius: 3px;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .header {
+            text-align: center;
+            padding: 15px;
+            background-color: #1a5f7a;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #bdc3c7;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AD9361寄存器映射参考手册</h1>
+            <p>UG-671 | 中文版</p>
+            <p>One Technology Way, P.O. Box 9106, Norwood, MA 02062-9106, U.S.A.</p>
+        </div>
+
+        <div class="toc">
+            <h3>目录</h3>
+            <ul>
+                <li><a href="#general">概述</a></li>
+                <li><a href="#revision">修订历史</a></li>
+                <li><a href="#general-setup">通用设置和数字数据端口配置</a></li>
+                <li><a href="#clock">时钟控制寄存器</a></li>
+                <li><a href="#temp-sensor">温度传感器寄存器</a></li>
+                <li><a href="#parallel-port">并行端口配置寄存器</a></li>
+                <li><a href="#ensm">使能状态机(ENSM)寄存器</a></li>
+                <li><a href="#auxdac">AuxDAC寄存器</a></li>
+                <li><a href="#auxadc">辅助ADC寄存器</a></li>
+                <li><a href="#gpo">GPO、AuxDAC、AGC延迟和合成器延迟控制寄存器</a></li>
+                <li><a href="#control-output">控制输出寄存器</a></li>
+                <li><a href="#product-id">产品ID寄存器</a></li>
+                <li><a href="#ref-clock">参考时钟周期寄存器</a></li>
+                <li><a href="#digital-io">数字IO控制寄存器</a></li>
+                <li><a href="#bbpll">BBPLL控制寄存器</a></li>
+                <li><a href="#power-down">掉电覆盖寄存器</a></li>
+                <li><a href="#overflow">溢出寄存器</a></li>
+                <li><a href="#tx-config">发射机配置</a></li>
+                <li><a href="#rx-config">接收机配置</a></li>
+                <li><a href="#rx-analog">接收机模拟寄存器</a></li>
+                <li><a href="#control-reg">控制寄存器</a></li>
+                <li><a href="#digital-test">数字测试寄存器</a></li>
+            </ul>
+        </div>
+
+        <div id="general">
+            <h2>概述</h2>
+            <p>本用户指南包含了对AD9361所有用户可编程位的描述。在适用的情况下，映射表列出了这些位对应的单位（如dBFS）、可接受的值范围以及值的分辨率（如1 dB/LSB）。</p>
+            <p>在许多情况下，多个位或字节协同工作以实现特定功能（例如，用于配置自动增益控制的位和用于配置数字接口的位）。本节描述每个位，但更多详细信息可在AD9361参考手册中找到。</p>
+            <p>虽然寄存器映射为想要了解芯片底层操作的人员提供了便利，但不建议尝试创建自己的软件。Analog Devices为AD9361提供完整的驱动程序，支持裸机/无操作系统和操作系统（Linux）。AD9361和AD9364共享相同的API。AD9361和AD9364驱动程序可在此处找到：</p>
+            <ul>
+                <li>Linux wiki页面</li>
+                <li>无操作系统(No-OS) wiki页面</li>
+            </ul>
+            <p>这些驱动程序的支持可在以下位置找到：</p>
+            <ul>
+                <li>Linux工程师专区页面</li>
+                <li>无操作系统工程师专区页面</li>
+            </ul>
+            <p>AD9361的完整规格可在AD9361数据表中找到，该数据表可从Analog Devices, Inc.获取，在使用评估板时应与本用户指南一起参考。</p>
+        </div>
+
+        <div id="revision">
+            <h2>修订历史</h2>
+            <p><strong>2014年3月</strong> - 修订版0：初始版本</p>
+        </div>
+
+        <div id="general-setup">
+            <h2>通用设置和数字数据端口配置</h2>
+            
+            <h3>芯片级设置寄存器（地址0x000至0x007）</h3>
+            <p>有许多种滤波器和分频器设置组合，其中大部分不是有效的操作模式。Analog Devices强烈建议客户使用软件来编程AD9361滤波器和时钟分频器。</p>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x000</td>
+                        <td>SPI配置</td>
+                        <td>必须为0</td>
+                        <td>3线SPI</td>
+                        <td>LSB优先</td>
+                        <td>LSB优先</td>
+                        <td>必须为0</td>
+                        <td>3线SPI</td>
+                        <td>LSB优先</td>
+                        <td>必须为0</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x001</td>
+                        <td>多芯片同步和Tx监控控制</td>
+                        <td>开放</td>
+                        <td>Tx2监控使能</td>
+                        <td>Tx1监控使能</td>
+                        <td>开放</td>
+                        <td>MCS RF使能</td>
+                        <td>MCS BBPLL使能</td>
+                        <td>MCS数字CLK使能</td>
+                        <td>MCS BB使能</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x002</td>
+                        <td>Tx使能和滤波器控制</td>
+                        <td>Tx通道使能[1:0]</td>
+                        <td>THB3使能和插值[1:0]</td>
+                        <td>THB2使能</td>
+                        <td>THB1使能</td>
+                        <td>Tx FIR使能和插值[1:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x5F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x003</td>
+                        <td>Rx使能和滤波器控制</td>
+                        <td>Rx通道使能[1:0]</td>
+                        <td>RHB3使能和抽取[1:0]</td>
+                        <td>RHB2使能</td>
+                        <td>RHB1使能</td>
+                        <td>Rx FIR使能和抽取[1:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x5F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x004</td>
+                        <td>输入选择</td>
+                        <td>必须为0</td>
+                        <td>Tx输出</td>
+                        <td colspan="6">Rx输入[5:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x005</td>
+                        <td>RFPLL分频器</td>
+                        <td colspan="4">Tx VCO分频器[3:0]</td>
+                        <td colspan="4">Rx VCO分频器[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x006</td>
+                        <td>Rx时钟和数据延迟</td>
+                        <td colspan="4">DATA_CLK延迟[3:0]</td>
+                        <td colspan="4">Rx数据延迟[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x007</td>
+                        <td>Tx时钟和数据延迟</td>
+                        <td colspan="4">FB_CLK延迟[3:0]</td>
+                        <td colspan="4">Tx数据延迟[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x000 - SPI配置</h3>
+            <div class="register-description">
+                <p>该寄存器是对称的（例如，位D6与位D1相同）。AD9361上电时默认SPI操作采用MSB优先。本寄存器允许BBP写入寄存器0x000中的任何位，而无需在SPI命令中反转位顺序。对称位进行或运算，因此设置一个位会设置两个位。</p>
+                <p><strong>D7和D0</strong> - 必须为0</p>
+                <p><strong>D6和D1</strong> - 3线SPI</p>
+                <p>清除时，SPI_DI引脚是输入引脚。设置时，SPI_DI是双向的，SPI_DO为高阻抗。</p>
+                <p><strong>D5和D2</strong> - LSB优先</p>
+                <p>清除时，SPI使用MSB优先格式。设置时，SPI使用LSB优先格式。</p>
+            </div>
+
+            <h3>SPI寄存器0x001 - 多芯片同步和Tx监控控制</h3>
+            <div class="register-description">
+                <p><strong>D6</strong> - Tx2监控使能</p>
+                <p>此位强制Tx2监控路径开启。这将关闭正常的接收路径。即使ENSM进入Rx状态，接收路径也不会上电。设置此位时，Tx Mon 2引脚上的信号作为I和Q数据发送到Rx数据端口。要使用发射功率监控，请参见SPI寄存器0x057 - 模拟掉电覆盖和SPI寄存器0x06E - TPM模式使能部分。</p>
+                <p><strong>D5</strong> - Tx1监控使能</p>
+                <p>此位的功能与位D6相同，但适用于Tx_MON1引脚。</p>
+                <p><strong>D3</strong> - MCS RF使能</p>
+                <p>设置此位可保持RF LO分频器在警报模式下使能，从而使多个器件之间的相位关系保持恒定。如果该位为清除，分频器在警报模式下断电。如果该位为清除，在FDD独立模式下，当Rx或Tx路径被禁用时，相应的LO分频器也会断电。</p>
+                <p><strong>D2</strong> - MCS BBPLL使能</p>
+                <p>要同步多个器件的BBPLL，请将此位置高，然后向SYNC_IN提供同步脉冲。</p>
+                <p><strong>D1</strong> - MCS数字CLK使能</p>
+                <p>要同步多个AD9361器件的数字时钟，请首先同步BBPLL，然后将此位置高并向SYNC_IN引脚提供同步脉冲。</p>
+                <p><strong>D0</strong> - MCS BB使能</p>
+                <p>设置此位可启用基带多芯片数字同步功能。另请参见0x001[D2:D1]。</p>
+            </div>
+
+            <h3>SPI寄存器0x002 - Tx使能和滤波器控制</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - Tx通道使能[1:0]</p>
+                <p>ad9361_en_dis_tx函数设置这些位。这些位决定哪个发射机被使能，位D6对应Tx1，位D7对应Tx2。设置一位使能发射机信号路径。清除两位禁用两个发射机。</p>
+                <p><strong>[D5:D4]</strong> - THB3使能和插值[1:0]</p>
+                <p>请注意，有几个函数可以计算数字滤波器设置。ad9361_calculate_rf_clock_chain函数计算所有Rx和Tx速率。</p>
+                <p>这些位根据下表设置馈送给DAC的数字滤波器插值：</p>
+            </div>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>[D5:D4]</th>
+                        <th>插值因子</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>插值1，无滤波</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>插值2（半带滤波器）</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>插值3并滤波</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>无效</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>D3</strong> - THB2使能</p>
+                <p>请参见位[D5:D4]部分注释。设置此位使能插值2的THB2半带滤波器。清除此位旁路滤波器。</p>
+                <p><strong>D2</strong> - THB1使能</p>
+                <p>请参见位[D5:D4]部分注释。设置此位使能插值2的THB1半带滤波器。清除此位旁路滤波器。</p>
+                <p><strong>[D1:D0]</strong> - Tx FIR使能和插值</p>
+                <p>请参见位[D5:D4]部分注释。这两位根据下表控制可编程Tx FIR滤波器：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>[D1:D0]</th>
+                        <th>插值因子和滤波器功能</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>插值1并旁路滤波器</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>插值1并使能滤波器</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>插值2并使能滤波器</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>插值4并使能滤波器</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x003 - Rx使能和滤波器控制</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - Rx通道使能[1:0]</p>
+                <p>ad9361_en_dis_rx函数设置这些位。这些位决定哪个接收机被使能，位D6对应接收机1，位D7对应接收机2。设置一位使能接收机信号路径。清除两位禁用两个接收机。</p>
+                <p><strong>[D5:D4]</strong> - RHB3使能和抽取</p>
+                <p>请参见0x002[D5:D4]注释。这些位设置ADC后第一级滤波器的抽取。</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>[D5:D4]</th>
+                        <th>抽取因子</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>抽取1，无滤波</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>抽取2（半带滤波器）</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>抽取3并滤波</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>无效</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>D3</strong> - RHB2使能</p>
+                <p>请参见0x002[D5:D4]注释。设置此位使能抽取2的RHB2半带滤波器。清除此位旁路滤波器。</p>
+                <p><strong>D2</strong> - RHB1使能</p>
+                <p>请参见0x002[D5:D4]注释。设置此位使能抽取2的RHB1半带滤波器。清除此位旁路滤波器。</p>
+                <p><strong>[D1:D0]</strong> - Rx FIR使能和抽取[1:0]</p>
+                <p>请参见0x002[D5:D4]注释。这两位控制可编程Rx FIR滤波器。</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>[D1:D0]</th>
+                        <th>抽取因子和滤波器功能</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>抽取1并旁路滤波器</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>抽取1并使能滤波器</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>抽取2并使能滤波器</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>抽取4并使能滤波器</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x004 - 输入选择</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - 必须为0</p>
+                <p><strong>D6</strong> - Tx输出</p>
+                <p>ad9361_init配置此位。每个发射机信号路径有两个RF输出端口（A和B）。清除此位选择Tx1A和Tx2A，而设置此位选择Tx1B和Tx2B。</p>
+                <p><strong>[D5:D0]</strong> - Rx输入[5:0]</p>
+                <p>ad9361_init配置这些位。每个接收机信号路径有三个内部LNA。此外，接收机可以在平衡或不平衡模式下工作。AD9361以相同方式配置两个接收机信号路径，六个位中的每一个激活一个特定输入。下表显示了有效情况。</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>[D5:D0]</th>
+                        <th>使能的Rx输入</th>
+                    </tr>
+                    <tr>
+                        <td>000001</td>
+                        <td>Rx1A_N和Rx2A_N使能；不平衡</td>
+                    </tr>
+                    <tr>
+                        <td>000010</td>
+                        <td>Rx1A_P和Rx2A_P使能；不平衡</td>
+                    </tr>
+                    <tr>
+                        <td>000100</td>
+                        <td>Rx1B_N和Rx2B_N使能；不平衡</td>
+                    </tr>
+                    <tr>
+                        <td>001000</td>
+                        <td>Rx1B_P和Rx2B_P使能；不平衡</td>
+                    </tr>
+                    <tr>
+                        <td>010000</td>
+                        <td>Rx1C_N和Rx2C_N使能；不平衡</td>
+                    </tr>
+                    <tr>
+                        <td>100000</td>
+                        <td>Rx1C_P和Rx2C_P使能；不平衡</td>
+                    </tr>
+                    <tr>
+                        <td>000011</td>
+                        <td>（Rx1A_N和Rx1A_P）和（Rx2A_N和Rx2A_P）使能；平衡</td>
+                    </tr>
+                    <tr>
+                        <td>001100</td>
+                        <td>（Rx1B_N和Rx1B_P）和（Rx2B_N和Rx2B_P）使能；平衡</td>
+                    </tr>
+                    <tr>
+                        <td>110000</td>
+                        <td>（Rx1C_N和Rx1C_P）和（Rx2C_N和Rx2C_P）使能；平衡</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x005 - RFPLL分频器</h3>
+            <div class="register-description">
+                <p><strong>[D7:D4]</strong> - Tx VCO分频器[2:0]</p>
+                <p>ad9361_set_tx_lo_freq函数配置这些位。内部VCO工作范围为6 GHz至12 GHz。VCO之后的分频器允许宽范围的Tx本振频率。寄存器值按以下公式映射：</p>
+                <div class="equation">
+                    Tx VCO分频器 = 2^(Tx VCO分频器寄存器 + 1)
+                </div>
+                <p>BBP必须正确编程此寄存器才能使Tx LO频率正确。下表显示寄存器值与所需Tx LO的对应关系：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>此Tx LO频率范围</th>
+                        <th>除以</th>
+                        <th>设置Tx VCO分频器[2:0]为</th>
+                    </tr>
+                    <tr>
+                        <td>3000 MHz至6000 MHz</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1500 MHz至3000 MHz</td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>750 MHz至1500 MHz</td>
+                        <td>8</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>375 MHz至750 MHz</td>
+                        <td>16</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>187.5 MHz至375 MHz</td>
+                        <td>32</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>93.75 MHz至187.5 MHz</td>
+                        <td>64</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>70 MHz至93.75 MHz</td>
+                        <td>128</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>70 MHz至4 GHz</td>
+                        <td>使用外部VCO。Tx LO = 外部VCO ÷ 2</td>
+                        <td>7</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>[D3:D0]</strong> - Rx VCO分频器</p>
+                <p>ad9361_set_rx_lo_freq配置这些位。这些位的功能与位[D7:D4]相同，但用于编程Rx VCO分频器。</p>
+            </div>
+
+            <h3>SPI寄存器0x006 - Rx时钟和数据延迟</h3>
+            <div class="register-description">
+                <p>这些位影响DATA_CLK和Rx数据延迟。典型延迟约为0.3 ns/LSB。Rx帧与数据端口位延迟相同。最小延迟设置为0x0，最大延迟为0xF。设置此寄存器，使AD9361的数据满足BBP建立/保持规格。</p>
+            </div>
+
+            <h3>SPI寄存器0x007 - Tx时钟和数据延迟</h3>
+            <div class="register-description">
+                <p>此寄存器的功能与寄存器0x006相同，但影响FB_CLK、Tx_FRAME和Tx数据位。Tx帧同步与数据端口位延迟相同。设置此寄存器，使BBP的数据满足AD9361的建立/保持规格。</p>
+            </div>
+        </div>
+
+        <div id="clock">
+            <h2>时钟控制寄存器（地址0x009至0x00A）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x009</td>
+                        <td>时钟使能</td>
+                        <td>开放</td>
+                        <td>必须为0</td>
+                        <td>XO旁路</td>
+                        <td>必须为0</td>
+                        <td>数字上电</td>
+                        <td>设为1</td>
+                        <td>BBPLL使能</td>
+                        <td></td>
+                        <td>0x10</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x00A</td>
+                        <td>BBPLL</td>
+                        <td colspan="3">CLKOUT选择[2:0]</td>
+                        <td>CLKOUT使能</td>
+                        <td>DAC Clk div2</td>
+                        <td colspan="3">BBPLL分频器[2:0]</td>
+                        <td>0x03</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x009 - 时钟使能</h3>
+            <div class="register-description">
+                <p>ad9361_init函数设置包括寄存器0x009在内的许多寄存器。</p>
+                <p><strong>D5</strong> - 必须为0</p>
+                <p><strong>D4</strong> - XO旁路</p>
+                <p>此位控制一个多路复用器，在选择两条不同路径之一的同时关闭未选路径。设置此位使用外部参考时钟。清除此位使用带DCXO的外部晶体。</p>
+                <p><strong>D3</strong> - 必须为0</p>
+                <p><strong>D2</strong> - 数字上电</p>
+                <p>清除时，AD9361关闭数字逻辑时钟。BBP仍可写入直接可寻址的SPI寄存器。设置时，所有数字时钟都可工作。AD9361上电时此位为清除，并在初始化期间设置。</p>
+                <p><strong>D1</strong> - 设为1</p>
+                <p><strong>D0</strong> - BBPLL使能</p>
+                <p>清除此位禁用BBPLL，而设置此位使能BBPLL。AD9361上电时此位为清除，并在初始化期间设置。</p>
+            </div>
+
+            <h3>SPI寄存器0x00A - BBPLL</h3>
+            <div class="register-description">
+                <p><strong>[D7:D5]</strong> - CLKOUT选择[2:0]</p>
+                <p>clk_output_mode_select函数控制这些位。这些位按下表设置CLKOUT频率。设置D4使能此功能。</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>CLKOUT选择[2:0]</th>
+                        <th>CLKOUT频率</th>
+                    </tr>
+                    <tr>
+                        <td>000</td>
+                        <td>X TAL N（或DCXO）（缓冲）</td>
+                    </tr>
+                    <tr>
+                        <td>001</td>
+                        <td>ADC_CLK/2</td>
+                    </tr>
+                    <tr>
+                        <td>010</td>
+                        <td>ADC_CLK/3</td>
+                    </tr>
+                    <tr>
+                        <td>011</td>
+                        <td>ADC_CLK/4</td>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td>ADC_CLK/8</td>
+                    </tr>
+                    <tr>
+                        <td>101</td>
+                        <td>ADC_CLK/16</td>
+                    </tr>
+                    <tr>
+                        <td>110</td>
+                        <td>ADC_CLK/32</td>
+                    </tr>
+                    <tr>
+                        <td>111</td>
+                        <td>ADC_CLK/64</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>D4</strong> - CLKOUT使能</p>
+                <p>ad9361_clk_output_mode_select函数控制此位。设置此位将下表指定频率的时钟路由到CLKOUT引脚。清除时，AD9361输出逻辑零。</p>
+                <p><strong>D3</strong> - DAC Clk Div2</p>
+                <p>ad9361_calculate_rf_clock_chain函数配置此位。清除时，DAC时钟速率等于ADC时钟速率。设置时，DAC时钟等于ADC速率的一半。</p>
+                <p><strong>[D2:D0]</strong> - BBPLL分频器[2:0]</p>
+                <p>ad9361_bbpll_set_rate函数控制这些位。ADC时钟速率等于BBPLL除以此寄存器中的因子，如下公式所示：</p>
+                <div class="equation">
+                    ADC时钟速率 = BBPLL时钟速率 / (BBPLL分频器[2:0](十进制) × 2)
+                </div>
+                <p>BBPLL分频器[2:0]有效范围为1到6。</p>
+            </div>
+        </div>
+
+        <div id="temp-sensor">
+            <h2>温度传感器寄存器（地址0x00C至0x00F）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x00B</td>
+                        <td>偏移温度传感</td>
+                        <td colspan="8">温度传感偏移[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x00C</td>
+                        <td>启动温度读取</td>
+                        <td>开放</td>
+                        <td colspan="7">启动温度读取</td>
+                        <td>0x0-</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x00D</td>
+                        <td>温度传感2</td>
+                        <td colspan="7">测量时间间隔[6:0]</td>
+                        <td>温度传感周期使能</td>
+                        <td>0x03</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x00E</td>
+                        <td>温度</td>
+                        <td colspan="8">温度[7:0]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x00F</td>
+                        <td>温度传感配置</td>
+                        <td>开放</td>
+                        <td colspan="3">温度传感抽取[2:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x04</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p>ad9361_auxadc_setup函数处理温度传感器设置以及AuxADC设置。温度传感器在AD9361内部。要确定系统温度，请使用外部温度传感器。</p>
+                <p><strong>SPI寄存器0x00B</strong> - 温度传感偏移</p>
+                <p>请参见SPI寄存器0x00E - 温度部分。</p>
+                <p><strong>SPI寄存器0x00C</strong> - 温度传感1</p>
+                <p><strong>D0</strong> - 启动温度读取</p>
+                <p>设置此位手动启动温度读取；仅在0x00D[D0]为清除时适用。D0不自清除。要再次计算温度，必须清除此位然后再次设置。</p>
+                <p><strong>SPI寄存器0x00D</strong> - 温度传感2</p>
+                <p><strong>[D7:D1]</strong> - 测量时间间隔[6:0]</p>
+                <p>仅在位D0设置时适用，这种情况下AD9361按以下速率定期进行温度读取：</p>
+                <div class="equation">
+                    周期(秒) = 测量时间间隔[6:0] × 29 / BBPLL时钟频率(Hz)
+                </div>
+                <p><strong>D0</strong> - 温度传感周期使能</p>
+                <p>请参见0x00D[D7:D1]和0x00C[D0]。</p>
+                <p><strong>SPI寄存器0x00E</strong> - 温度</p>
+                <p>温度字与内部芯片温度成比例，斜率为1.16 × 温度。寄存器0x00E中的值与温度相关，然后加上寄存器0x00B中的值。读取温度时，通过设置0x01D[D0]禁用AuxADC以确保温度读取有效。</p>
+                <p><strong>SPI寄存器0x00F</strong> - 温度传感配置</p>
+                <p><strong>[D2:D0]</strong> - 温度传感抽取</p>
+                <p>用于推导温度的AuxADC抽取，如下公式所示。AD9361使用sigma delta AuxADC执行温度测量。使用温度传感器时，AuxADC时钟速率始终为BBPLL速率除以64。</p>
+                <div class="equation">
+                    温度传感抽取 = 256 × 2^温度传感抽取[2:0]
+                </div>
+            </div>
+        </div>
+
+        <div id="parallel-port">
+            <h2>并行端口配置寄存器（地址0x010至0x012）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x010</td>
+                        <td>并行端口配置1</td>
+                        <td>PP Tx交换IQ</td>
+                        <td>PP Rx交换IQ</td>
+                        <td>Tx通道交换</td>
+                        <td>Rx通道交换</td>
+                        <td>Rx帧脉冲模式</td>
+                        <td>2R2T时序</td>
+                        <td>反转数据总线</td>
+                        <td>反转DATA CLK</td>
+                        <td>0xC0</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x011</td>
+                        <td>并行端口配置2</td>
+                        <td>FDD Alt字序</td>
+                        <td>必须为0</td>
+                        <td>反转Tx1</td>
+                        <td>反转Tx2</td>
+                        <td>反转Rx帧</td>
+                        <td colspan="2">Rx数据延迟[1:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x012</td>
+                        <td>并行端口配置3</td>
+                        <td>FDD Rx速率=2*Tx速率</td>
+                        <td>交换端口</td>
+                        <td>单数据速率</td>
+                        <td>LVDS模式</td>
+                        <td>半双工模式</td>
+                        <td>单端口模式</td>
+                        <td>全端口</td>
+                        <td>全双工交换位</td>
+                        <td>0x04</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x010 - 并行端口配置1</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - PP Tx交换IQ</p>
+                <p>清除此位交换I和Q（执行频谱反转）。</p>
+                <p><strong>D6</strong> - PP Rx交换IQ</p>
+                <p>此位功能与位D7相同，但适用于Rx路径。</p>
+                <p><strong>D5</strong> - Tx通道交换</p>
+                <p>设置此位交换Tx1和Tx2样本的位置。</p>
+                <p><strong>D4</strong> - Rx通道交换</p>
+                <p>此位功能与位D5相同，但适用于Rx路径。</p>
+                <p><strong>D3</strong> - Rx帧脉冲模式</p>
+                <p>AD9361输出一个Rx帧同步信号，表示Rx帧的开始。当此位清除时，Rx帧在第一个有效接收样本时变为高电平，并在接收机使能期间保持高电平。设置此位时，Rx帧信号以50%的占空比切换。</p>
+                <p><strong>D2</strong> - 2R2T时序</p>
+                <p>设置时，数据端口使用2R2T时序，无论使能的发射机和接收机数量如何。清除时，时序反映使能信号路径的数量。</p>
+                <p><strong>D1</strong> - 反转数据总线</p>
+                <p>反转数据端口从[11:0]到[0:11]。</p>
+                <p><strong>D0</strong> - 反转DATA CLK</p>
+                <p>设置此位反转DATA_CLK。</p>
+            </div>
+
+            <h3>SPI寄存器0x011 - 并行端口配置2</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - FDD Alt字序</p>
+                <p>仅在全双工、双端口、全端口模式下有效。设置此位时，每个端口分成两个6位半。Rx1使用端口的6位，Rx2使用端口的另外6位（接收机不交织）。Tx1和Tx2类似组织。</p>
+                <p><strong>[D6:D5]</strong> - 必须为0</p>
+                <p><strong>D4</strong> - 反转Tx1</p>
+                <p>设置此位将Tx1信号乘以-1。</p>
+                <p><strong>D3</strong> - 反转Tx2</p>
+                <p>设置此位将Tx2信号乘以-1。</p>
+                <p><strong>D2</strong> - 反转Rx帧</p>
+                <p>设置此位反转Rx帧。</p>
+                <p><strong>[D1:D0]</strong> - 延迟Rx数据[1:0]</p>
+                <p>这些位设置Rx数据相对于Rx帧的延迟，对于DDR以DATA_CLK半周期为单位，对于SDR以完整DATA_CLK周期为单位。</p>
+            </div>
+
+            <h3>SPI寄存器0x012 - 并行端口配置3</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - FDD Rx速率=2*Tx速率</p>
+                <p>清除时，Rx采样率等于Tx采样率。设置时，Rx速率是Tx速率的两倍。此位仅在寄存器0x012的位D3为清除（全双工模式）时才能设置。</p>
+                <p><strong>D6</strong> - 交换端口</p>
+                <p>设置此位交换端口0和端口1。对于LVDS模式必须清除。</p>
+                <p><strong>D5</strong> - 单数据速率</p>
+                <p>清除时，使用DATA_CLK的两个边沿。设置时，只使用一个边沿。</p>
+                <p><strong>D4</strong> - LVDS模式</p>
+                <p>清除时，数据端口使用单端CMOS。设置此位使用LVDS。需要全双工（0x012[D3]清除）、DDR（0x012[D5]清除）和双端口模式（0x012[D2]清除）。</p>
+                <p><strong>D3</strong> - 半双工模式</p>
+                <p>清除位允许同时双向数据。设置位只允许数据一次在一个方向流动。通常，此位等于0x013[D0]的反相。</p>
+                <p><strong>D2</strong> - 单端口模式</p>
+                <p>清除时，P0和P1端口都使用。设置时，只使用一个数据端口。</p>
+                <p><strong>D1</strong> - 全端口</p>
+                <p>仅在全双工模式（[D3]清除）和双端口模式（D2清除）下使用。设置此位强制接收机在一个端口上，发射机在另一个端口上。清除位在每个端口上混合接收机和发射机。</p>
+                <p><strong>D0</strong> - 全双工交换位</p>
+                <p>此位在用于接收数据的位和用于发送数据的位之间切换，但有一个例外。如果设置了FDD Alt字序位（0x011[D7]），则效果是最有效的6位与最低有效的6位交换。设置此位并不总是有效的。</p>
+            </div>
+        </div>
+
+        <div id="ensm">
+            <h2>使能状态机(ENSM)寄存器（地址0x013至0x017）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x013</td>
+                        <td>ENSM模式</td>
+                        <td>开放</td>
+                        <td colspan="7">FDD模式</td>
+                        <td>0x01</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x014</td>
+                        <td>ENSM配置1</td>
+                        <td>使能Rx数据端口用于校准</td>
+                        <td>强制Rx开启</td>
+                        <td>强制Tx开启</td>
+                        <td>ENSM引脚控制</td>
+                        <td>电平模式</td>
+                        <td>强制警报状态</td>
+                        <td>自动增益锁定</td>
+                        <td>到警报</td>
+                        <td>0x13</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x015</td>
+                        <td>ENSM配置2</td>
+                        <td>FDD外部控制使能</td>
+                        <td>掉电Rx合成器</td>
+                        <td>掉电Tx合成器</td>
+                        <td>TXNRX SPI控制</td>
+                        <td>合成器引脚控制模式</td>
+                        <td>双合成器模式</td>
+                        <td>Rx合成器就绪屏蔽</td>
+                        <td>Tx合成器就绪屏蔽</td>
+                        <td>0x08</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x016</td>
+                        <td>校准控制</td>
+                        <td>Rx BB调谐</td>
+                        <td>Tx BB调谐</td>
+                        <td>必须为0</td>
+                        <td>Tx正交校准</td>
+                        <td>Rx增益步进校准</td>
+                        <td>开放</td>
+                        <td>DC校准RF启动</td>
+                        <td>DC校准BB启动</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x017</td>
+                        <td>状态</td>
+                        <td colspan="4">校准序列状态[3:0]</td>
+                        <td colspan="4">ENSM状态[3:0]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_set_en_state_machine_mode函数配置寄存器0x013至寄存器0x015。</p>
+
+            <h3>SPI寄存器0x013 - ENSM模式</h3>
+            <div class="register-description">
+                <p>位D0控制ENSM。清除为TDD模式；设置为FDD模式。</p>
+            </div>
+
+            <h3>SPI寄存器0x014 - ENSM配置1</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - 使能Rx数据端口用于校准</p>
+                <p>在TDD模式下，在Tx状态期间，设置此位使能Rx数据端口。如果Tx监控器也被使能，Tx监控I/Q数据将出现在Rx I/O端口上。</p>
+                <p><strong>D6</strong> - 强制Rx开启</p>
+                <p>设置此位使ENSM在TDD模式下进入Rx状态。在FDD模式下被忽略。清除此位使ENSM通过Rx刷新状态返回到警报状态，在此状态下ENSM忽略影响它的SPI命令。</p>
+                <p><strong>D5</strong> - 强制Tx开启</p>
+                <p>设置此位使ENSM在TDD模式下进入发送状态。在FDD模式下，设置此位使ENSM进入FDD状态。清除此位使ENSM通过刷新状态返回到警报状态，在此状态下ENSM忽略影响它的SPI命令。</p>
+                <p><strong>D4</strong> - ENSM引脚控制</p>
+                <p>设置时，ENSM响应使能和TXNRX信号并相应改变状态。清除时，SPI写入寄存器0x014中的位来改变状态。</p>
+                <p><strong>D3</strong> - 电平模式</p>
+                <p>清除时，使能脉冲使ENSM在其状态之间移动。设置此位时，ENABLE引脚的电平（在TDD模式下还有TXNRX信号的电平）决定状态。</p>
+                <p><strong>D2</strong> - 强制警报状态</p>
+                <p>如果ENSM处于等待状态，设置此位强制ENSM到警报状态。从任何其他状态，如果设置了到警报位（D0），设置此位使ENSM移动到警报状态，否则移动到等待状态。</p>
+                <p><strong>D1</strong> - 自动增益锁定</p>
+                <p>仅在设置了增益解锁控制位（0x0FB[D6]）且AGC在快速攻击模式下使用时适用。设置此位允许增益保持锁定，即使发生某些过载情况。</p>
+                <p><strong>D0</strong> - 到警报</p>
+                <p>如果清除，ENSM总是从Rx、Tx或FDD状态移动到等待状态。如果设置此位，ENSM移动到警报状态。</p>
+            </div>
+
+            <h3>SPI寄存器0x015 - ENSM配置2</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - FDD外部控制使能</p>
+                <p>仅在ENSM FDD模式位（0x013[D0]）设置时适用。设置此位允许使用ENABLE和TXNRX信号独立控制接收机和发射机，通常称为FDD独立控制模式。</p>
+                <p><strong>D6</strong> - 掉电Rx合成器</p>
+                <p>测试位，通常清除。设置掉电Rx RF合成器。</p>
+                <p><strong>D5</strong> - 掉电Tx合成器</p>
+                <p>测试位，通常清除。设置掉电Tx RF合成器。</p>
+                <p><strong>D4</strong> - TXNRX SPI控制</p>
+                <p>仅在单合成器模式（位D2清除）和合成器使能引脚控制模式（位D3）清除时使用。请参见0x015[D3]。</p>
+                <p><strong>D3</strong> - 合成器引脚控制模式</p>
+                <p>用于单合成器模式（位D2清除）。设置时，TXNRX引脚控制哪个RF合成器被使能。清除时，位D4控制哪个合成器被使能。</p>
+                <p><strong>D2</strong> - 双合成器模式</p>
+                <p>清除时，任何时候只有一个RF合成器开启。设置时，两个合成器始终开启。</p>
+                <p><strong>D1</strong> - Rx合成器就绪屏蔽</p>
+                <p>通常清除。清除时，ENSM不会移动到Rx状态，除非Rx RF VCO已成功校准。设置时，ENSM忽略VCO校准状态。</p>
+                <p><strong>D0</strong> - Tx合成器就绪屏蔽</p>
+                <p>此位功能与位D1相同，但适用于Tx VCO。</p>
+            </div>
+
+            <h3>SPI寄存器0x016 - 校准控制</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - Rx BB调谐</p>
+                <p>ad9361_rx_rf_bandwidth函数配置并运行Rx基带滤波器校准。设置此位启动接收机模拟基带滤波器校准，校准完成时自清除。</p>
+                <p><strong>D6</strong> - Tx BB调谐</p>
+                <p>ad9361_tx_rf_bandwidth函数配置并运行Tx基带滤波器校准。此位功能与位D7相同，但适用于发送滤波器。</p>
+                <p><strong>D5</strong> - 必须为0</p>
+                <p><strong>D4</strong> - Tx正交校准</p>
+                <p>ad9361_tx_quad_calib函数配置并运行Tx正交校准。设置此位启动发送正交校准，校准完成时自清除。</p>
+                <p><strong>D3</strong> - Rx增益步进校准</p>
+                <p>设置此位启动LNA和混频器增益步进校准，校准完成时自清除。Rx输入端必须存在外部RF信号。</p>
+                <p><strong>D1</strong> - DC校准RF启动</p>
+                <p>ad9361_rf_dc_offset_calib函数配置并运行RF DC校准。设置此位对Rx信号路径执行RF DC偏移校准，校准完成时位自清除。</p>
+                <p><strong>D0</strong> - DC校准BB启动</p>
+                <p>ad9361_bb_dc_offset_calib函数配置并运行基带DC校准。设置此位对Rx信号路径执行基带DC偏移校准，校准完成时自清除。</p>
+            </div>
+
+            <h3>SPI寄存器0x017 - 状态 - 只读</h3>
+            <div class="register-description">
+                <p><strong>[D7:D4]</strong> - 校准序列状态[3:0]</p>
+                <p>下表显示了校准状态机的状态：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>校准状态</th>
+                        <th>0x017[7:4]</th>
+                    </tr>
+                    <tr>
+                        <td>校准完成</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>基带DC偏移校准</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>RF DC偏移校准</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Tx1正交校准</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Tx2正交校准</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>接收机增益步进校准</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>基带校准刷新</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>RF校准刷新</td>
+                        <td>B</td>
+                    </tr>
+                    <tr>
+                        <td>发射机正交校准刷新</td>
+                        <td>C</td>
+                    </tr>
+                    <tr>
+                        <td>发射机功率检测器校准刷新</td>
+                        <td>E</td>
+                    </tr>
+                    <tr>
+                        <td>接收机增益步进校准刷新</td>
+                        <td>F</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>[D3:D0]</strong> - ENSM状态[3:0]</p>
+                <p>下表显示了使能状态机(ENSM)的状态：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>ENSM状态</th>
+                        <th>0x017[3:0]</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>睡眠</td>
+                        <td>0</td>
+                        <td>AD9361时钟/BBPLL禁用</td>
+                    </tr>
+                    <tr>
+                        <td>等待</td>
+                        <td>0</td>
+                        <td>时钟使能</td>
+                    </tr>
+                    <tr>
+                        <td>警报</td>
+                        <td>5</td>
+                        <td>合成器使能</td>
+                    </tr>
+                    <tr>
+                        <td>Tx</td>
+                        <td>6</td>
+                        <td>Tx信号链使能</td>
+                    </tr>
+                    <tr>
+                        <td>Tx刷新</td>
+                        <td>7</td>
+                        <td>Tx数字块刷新时间</td>
+                    </tr>
+                    <tr>
+                        <td>Rx</td>
+                        <td>8</td>
+                        <td>Rx信号链使能</td>
+                    </tr>
+                    <tr>
+                        <td>Rx刷新</td>
+                        <td>9</td>
+                        <td>Rx数字块刷新时间</td>
+                    </tr>
+                    <tr>
+                        <td>FDD</td>
+                        <td>A</td>
+                        <td>Tx和Rx信号链使能</td>
+                    </tr>
+                    <tr>
+                        <td>FDD刷新</td>
+                        <td>B</td>
+                        <td>刷新所有数字信号路径块</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="auxdac">
+            <h2>AuxDAC寄存器（地址0x018至0x01B）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x018</td>
+                        <td>AuxDAC 1字</td>
+                        <td colspan="8">AuxDAC 1字[9:2]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x019</td>
+                        <td>AuxDAC 2字</td>
+                        <td colspan="8">AuxDAC 2字[9:2]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x01A</td>
+                        <td>AuxDAC 1配置</td>
+                        <td>开放</td>
+                        <td>必须为0</td>
+                        <td>AuxDAC1步进因子</td>
+                        <td colspan="2">AuxDAC 1 Vref[1:0]</td>
+                        <td colspan="2">AuxDAC 1字[1:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x01B</td>
+                        <td>AuxDAC 2配置</td>
+                        <td>开放</td>
+                        <td>必须为0</td>
+                        <td>AuxDAC2步进因子</td>
+                        <td colspan="2">AuxDAC 2 Vref[1:0]</td>
+                        <td colspan="2">AuxDAC 2字[1:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_auxdac_setup函数配置AuxDAC。寄存器0x023、寄存器0x026和寄存器0x030至寄存器0x033决定AuxDAC的使能/禁用状态。</p>
+
+            <h3>SPI寄存器0x018、0x019、0x01A[D1:D0]和0x01B[D1:D0] - AuxDAC 1(2)字</h3>
+            <div class="register-description">
+                <p>AuxDAC输出电压定义如下公式：</p>
+                <div class="equation">
+                    AuxDAC Vout(V) = 0.97×Vref + (0.000738 + 9×10^-6 × (Vref×1.6-2)) × AuxDAC Word[9:0] × Step Factor - 0.3572×Step Factor + 0.05
+                </div>
+                <p>其中：</p>
+                <ul>
+                    <li>Vref由0x01A[D3:D2]（AuxDAC 1）和0x01B[D3:D2]（AuxDAC 2）设置。</li>
+                    <li>Step Factor由寄存器0x01A[D4]（AuxDAC 1位）和寄存器0x01B[D4]（AuxDAC 2位）设置。</li>
+                    <li>AuxDAC Words为寄存器0x018至寄存器0x01B。</li>
+                </ul>
+                <p class="note">注意：当VDDA_GPO = 3.3 V时，AuxDAC Vout最大值限制为3 V。</p>
+            </div>
+
+            <h3>SPI寄存器0x01A - AuxDAC 1配置</h3>
+            <div class="register-description">
+                <p><strong>D5</strong> - 必须为0</p>
+                <p><strong>D4</strong> - AuxDAC1步进因子</p>
+                <p>如果此位清除，上式中步进因子 = 2。如果设置此位，步进因子 = 1。</p>
+                <p><strong>[D3:D2]</strong> - AuxDAC 1 Vref[1:0]</p>
+                <p>这些位对公式中的Vref因子进行编码。下表显示了编码：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Vref[1:0]</th>
+                        <th>Vref (V)</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>1.5</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>2.0</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>2.5</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x01B - AuxDAC 2配置</h3>
+            <div class="register-description">
+                <p>这些位的功能与寄存器0x01A相同，但适用于AuxDAC 2。</p>
+            </div>
+        </div>
+
+        <div id="auxadc">
+            <h2>辅助ADC寄存器（地址0x01C至0x01F）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x01C</td>
+                        <td>AuxADC时钟分频器</td>
+                        <td>开放</td>
+                        <td colspan="6">AuxADC时钟分频器[5:0]</td>
+                        <td>0x10</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x01D</td>
+                        <td>AuxADC配置</td>
+                        <td>开放</td>
+                        <td colspan="3">AuxADC抽取[2:0]</td>
+                        <td>AuxADC掉电</td>
+                        <td></td>
+                        <td></td>
+                        <td>0x01</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x01E</td>
+                        <td>AuxADC字MSB</td>
+                        <td colspan="8">AuxADC字MSB[11:4]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x01F</td>
+                        <td>AuxADC字LSB</td>
+                        <td>开放</td>
+                        <td colspan="4">AuxADC字LSB[3:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_auxadc_setup函数配置AuxADC。</p>
+
+            <h3>SPI寄存器01C - AuxADC时钟分频器</h3>
+            <div class="register-description">
+                <p><strong>[D5:D0]</strong> - AuxADC时钟分频器[5:0]</p>
+                <p>AuxADC时钟通过对BBPLL分频得到，如下公式所示。分频值0无效。</p>
+                <div class="equation">
+                    AuxADC时钟频率 = BBPLL频率 / AuxADC时钟分频器[5:0]
+                </div>
+            </div>
+
+            <h3>SPI寄存器0x01D - AuxADC配置</h3>
+            <div class="register-description">
+                <p><strong>[D3:D1]</strong> - AuxADC抽取[2:0]</p>
+                <p>这些位按下式设置AuxADC抽取：</p>
+                <div class="equation">
+                    AuxADC抽取 = 256 × 2^AuxADC抽取[2:0]
+                </div>
+                <p><strong>D0</strong> - AuxADC掉电</p>
+                <p>设置此位关闭AuxADC。</p>
+            </div>
+
+            <h3>SPI寄存器0x01E和0x01F - AuxADC字</h3>
+            <div class="register-description">
+                <p>这些寄存器保存12位AuxADC字。读取AuxADC字时，应禁用或阻止温度传感器更新。</p>
+            </div>
+        </div>
+
+        <div id="gpo">
+            <h2>GPO、AuxDAC、AGC延迟和合成器延迟控制寄存器（地址0x020至0x033）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x020</td>
+                        <td>自动GPO</td>
+                        <td colspan="4">GPO使能自动Rx[3:0]</td>
+                        <td colspan="4">GPO使能自动Tx[3:0]</td>
+                        <td>0x33</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x021</td>
+                        <td>AGC增益锁定延迟</td>
+                        <td colspan="8">增益锁定延迟[7:0]</td>
+                        <td>0x0A</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x022</td>
+                        <td>AGC攻击延迟</td>
+                        <td>开放</td>
+                        <td>反转向导通LNA极性</td>
+                        <td colspan="6">AGC攻击延迟[5:0]</td>
+                        <td>0x0A</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x023</td>
+                        <td>AuxDAC使能控制</td>
+                        <td colspan="2">AuxDAC手动Bar[1:0]</td>
+                        <td colspan="2">AuxDAC自动Tx Bar[1:0]</td>
+                        <td colspan="2">AuxDAC自动Rx Bar[1:0]</td>
+                        <td colspan="2">AuxDAC初始Bar[1:0]</td>
+                        <td>0x3F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x024</td>
+                        <td>Rx负载合成器延迟</td>
+                        <td colspan="8">必须为x02</td>
+                        <td>0x02</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x025</td>
+                        <td>Tx负载合成器延迟</td>
+                        <td colspan="8">必须为x02</td>
+                        <td>0x02</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x026</td>
+                        <td>外部LNA控制</td>
+                        <td>AuxDAC手动选择</td>
+                        <td>外部LNA2控制</td>
+                        <td>外部LNA1控制</td>
+                        <td>GPO手动选择</td>
+                        <td colspan="4">开放[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x027</td>
+                        <td>GPO强制和初始</td>
+                        <td colspan="4">GPO手动控制[3:0]</td>
+                        <td colspan="4">GPO初始状态[3:0]</td>
+                        <td>0x03</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x028</td>
+                        <td>GPO0 Rx延迟</td>
+                        <td colspan="8">GPO0 Rx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x029</td>
+                        <td>GPO1 Rx延迟</td>
+                        <td colspan="8">GPO1 Rx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x02A</td>
+                        <td>GPO2 Rx延迟</td>
+                        <td colspan="8">GPO2 Rx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x02B</td>
+                        <td>GPO3 Rx延迟</td>
+                        <td colspan="8">GPO3 Rx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x02C</td>
+                        <td>GPO0 Tx延迟</td>
+                        <td colspan="8">GPO0 Tx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x02D</td>
+                        <td>GPO1 Tx延迟</td>
+                        <td colspan="8">GPO1 Tx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x02E</td>
+                        <td>GPO2 Tx延迟</td>
+                        <td colspan="8">GPO2 Tx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x02F</td>
+                        <td>GPO3 Tx延迟</td>
+                        <td colspan="8">GPO3 Tx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x030</td>
+                        <td>AuxDAC1 Rx延迟</td>
+                        <td colspan="8">AuxDAC 1 Rx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x031</td>
+                        <td>AuxDAC1 Tx延迟</td>
+                        <td colspan="8">AuxDAC 1 Tx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x032</td>
+                        <td>AuxDAC2 Rx延迟</td>
+                        <td colspan="8">AuxDAC 2 Rx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x033</td>
+                        <td>AuxDAC2 Tx延迟</td>
+                        <td colspan="8">AuxDAC 2 Tx延迟[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_gpo_setup函数配置GPO。当AD9361上电进入睡眠状态时，默认寄存器值定义GPO逻辑电平。因此，GPO将自动切换，GPO_0和GPO_1将为高电平，而GPO_2和GPO_3将为低电平。</p>
+
+            <h3>SPI寄存器0x020 - 自动GPO</h3>
+            <div class="register-description">
+                <p><strong>[D7:D4]</strong> - GPO使能自动Rx[3:0]</p>
+                <p>此半字节控制当ENSM进入Rx状态时哪些GPO引脚改变状态。位D7控制GPO_3，位D6控制GPO_2，位D5控制GPO_1，位D4控制GPO_0。如果0x026[D4]设置，这些位被忽略。</p>
+                <p><strong>[D3:D0]</strong> - GPO使能自动Tx[3:0]</p>
+                <p>这些位的功能与D7:D4相同，但适用于ENSM进入Tx状态时。如果寄存器0x026[D4]设置，这些位被忽略。</p>
+            </div>
+
+            <h3>SPI寄存器0x021 - AGC增益锁定延迟</h3>
+            <div class="register-description">
+                <p>仅在0x014[D1]和0xFB[D6]设置时适用，允许增益保持锁定，即使发生某些过载情况。</p>
+            </div>
+
+            <h3>SPI寄存器0x022 - AGC攻击延迟</h3>
+            <div class="register-description">
+                <p><strong>D6</strong> - 反转向导通LNA极性</p>
+                <p>当LNA被旁路（索引0）时，其输出相位旋转约180°。设置此位校正此旋转。</p>
+                <p><strong>[D5:D0]</strong> - AGC攻击延迟</p>
+                <p>适用于快速AGC。AGC攻击延迟阻止AGC在其接收路径稳定之前开始其算法。延迟计数器在ENSM进入Rx状态时启动。单位：微秒，分辨率：1 μs/LSB，范围：0到31微秒。为了使微秒值准确，寄存器0x03A必须正确设置。</p>
+            </div>
+
+            <h3>SPI寄存器0x023 - AuxDAC使能控制</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - AuxDAC手动Bar[1:0]</p>
+                <p>清除位D7手动使能AuxDAC2。清除位D6手动使能AuxDAC1。如果寄存器0x026[D7]清除，这些位被忽略。</p>
+                <p><strong>[D5:D4]</strong> - AuxDAC自动Tx Bar[1:0]</p>
+                <p>清除位D5使AuxDAC2在ENSM进入Tx状态时改变状态。位D4以相同方式控制AuxDAC1。如果0x026[D7]设置，这些位被忽略。</p>
+                <p><strong>[D3:D2]</strong> - AuxDAC自动Rx Bar[1:0]</p>
+                <p>清除位D3使AuxDAC2在ENSM进入Rx状态时改变状态。位D2以相同方式控制AuxDAC1。如果0x026[D7]设置，这些位被忽略。</p>
+                <p><strong>[D1:D0]</strong> - AuxDAC初始Bar[1:0]</p>
+                <p>清除位D1设置AuxDAC2在ENSM处于警报状态时的状态为开启。位D0以相同方式控制AuxDAC1。如果0x026[D7]设置，这些位被忽略。</p>
+            </div>
+
+            <h3>SPI寄存器0x024 - 必须为x02</h3>
+            <h3>SPI寄存器0x025 - 必须为x02</h3>
+
+            <h3>SPI寄存器0x026 - 外部LNA控制</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - AuxDAC手动选择</p>
+                <p>清除时，AuxDAC状态从属于ENSM。设置时，向寄存器0x023[D7:D6]的SPI写入手动控制AuxDAC的状态。</p>
+                <p><strong>D6</strong> - 外部LNA 2控制</p>
+                <p>设置时，Rx2增益表中的Ext LNA Ctrl位设置GPO_1状态。</p>
+                <p><strong>D5</strong> - 外部LNA 1控制</p>
+                <p>此位的功能与位D6相同，但适用于Rx1增益表和GPO_0。</p>
+                <p><strong>D4</strong> - GPO手动选择</p>
+                <p>清除时，GPO从属于ENSM。设置时，0x027[D7:D4]设置GPO的值。</p>
+            </div>
+
+            <h3>SPI寄存器0x027 - GPO强制和初始</h3>
+            <div class="register-description">
+                <p><strong>[D7:D4]</strong> - GPO手动控制[3:0]</p>
+                <p>清除时，GPO为逻辑低电平。设置时，GPO为逻辑高电平。位D7控制GPO_3，位D6控制GPO_2，位D5控制GPO_1，位D4控制GPO_0。仅在寄存器0x026[D4]设置时适用。</p>
+                <p><strong>[D3:D0]</strong> - GPO初始状态[3:0]</p>
+                <p>清除时，GPO在睡眠、等待和警报状态下为逻辑低电平，设置时为逻辑高电平。位D3控制GPO_3，D2控制GPO_2，D1控制GPO_1，位D0控制GPO_0。仅在GPO状态从属于ENSM时适用。仅在0x026[D4]清除时适用。</p>
+            </div>
+
+            <h3>SPI寄存器0x028至0x02B - GPOn Rx延迟[7:0]</h3>
+            <div class="register-description">
+                <p>仅在GPO从属于ENSM（寄存器0x026[D4]清除）时适用。这些寄存器设置从ENSM改变为Rx到GPO改变逻辑电平之间的延迟：1 μs/LSB，范围从0 μs到255 μs。从ENSM改变Rx到警报的延迟始终是固定的，允许在改变GPO状态之前有Rx刷新状态。寄存器0x03A必须正确设置，延迟分辨率才能为1 μs/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x02C至0x02F - GPOn Tx延迟[7:0]</h3>
+            <div class="register-description">
+                <p>这些寄存器的功能与寄存器0x028至寄存器0x02B相同，但适用于从警报状态到Rx状态的转换。</p>
+            </div>
+
+            <h3>SPI寄存器0x030至0x033 - AuxDACn Rx/Tx延迟[7:0]</h3>
+            <div class="register-description">
+                <p>这些延迟影响AuxDAC的状态，类似于寄存器0x028至寄存器0x02B影响GPO的方式。仅在寄存器0x026[D7]清除时适用。</p>
+            </div>
+        </div>
+
+        <div id="control-output">
+            <h2>控制输出寄存器（地址0x035至0x036）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x035</td>
+                        <td>控制输出指针</td>
+                        <td colspan="8">控制输出指针[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x036</td>
+                        <td>控制输出使能</td>
+                        <td>En ctrl7</td>
+                        <td>En ctrl6</td>
+                        <td>En ctrl5</td>
+                        <td>En ctrl4</td>
+                        <td>En ctrl3</td>
+                        <td>En ctrl2</td>
+                        <td>En ctrl1</td>
+                        <td>En ctrl0</td>
+                        <td>0xFF</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_ctrl_outs_setup函数配置控制输出。</p>
+
+            <h3>SPI寄存器0x035 - 控制输出指针</h3>
+            <div class="register-description">
+                <p>此寄存器设置指向控制输出信号表的指针。请参阅用户指南的控制输出部分，了解控制输出信号到指针值和控制输出引脚的映射。</p>
+            </div>
+
+            <h3>SPI寄存器0x036 - 控制输出使能</h3>
+            <div class="register-description">
+                <p>此寄存器中的位使能/禁用控制输出。下表显示了映射：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>控制输出位位置</th>
+                        <th>CTRL_OUT引脚名称</th>
+                        <th>AD9361引脚标识</th>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>CTRL_OUT7</td>
+                        <td>G4</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>CTRL_OUT6</td>
+                        <td>F4</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>CTRL_OUT5</td>
+                        <td>F5</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>CTRL_OUT4</td>
+                        <td>F6</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>CTRL_OUT3</td>
+                        <td>E6</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>CTRL_OUT2</td>
+                        <td>E5</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>CTRL_OUT1</td>
+                        <td>E4</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>CTRL_OUT0</td>
+                        <td>D4</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="product-id">
+            <h2>产品ID寄存器（地址0x037）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x037</td>
+                        <td>产品ID</td>
+                        <td>开放</td>
+                        <td colspan="2">始终为1</td>
+                        <td colspan="3">Rev[2:0]</td>
+                        <td></td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x037 - 产品ID</h3>
+            <div class="register-description">
+                <p>位[D2:D0]表示器件的版本。</p>
+            </div>
+        </div>
+
+        <div id="ref-clock">
+            <h2>参考时钟周期寄存器（地址0x03A）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x03A</td>
+                        <td>参考时钟周期</td>
+                        <td>开放</td>
+                        <td colspan="7">每微秒参考时钟周期[6:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x03A - 参考时钟周期</h3>
+            <div class="register-description">
+                <p>ad9361_set_ref_clk_cycles函数配置此寄存器。许多延迟设置假定分辨率为1 LSB/μs。为此正确，寄存器0x03A必须编程为每微秒参考时钟周期数减1。参考时钟是外部参考或DCXO。</p>
+            </div>
+        </div>
+
+        <div id="digital-io">
+            <h2>数字IO控制寄存器（地址0x03B至0x03E）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x03B</td>
+                        <td>数字I/O控制</td>
+                        <td>CLKOUT驱动</td>
+                        <td>DATACLK驱动</td>
+                        <td colspan="2">DATACLK斜率[1:0]</td>
+                        <td>必须为0</td>
+                        <td>数据端口驱动</td>
+                        <td colspan="2">数据端口斜率[1:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x03C</td>
+                        <td>LVDS偏置控制</td>
+                        <td colspan="2">CLK输出斜率[1:0]</td>
+                        <td>Rx芯片终端旁路</td>
+                        <td>旁路偏置R</td>
+                        <td>LVDS Tx LO VCM</td>
+                        <td colspan="3">LVDS偏置[2:0]</td>
+                        <td>0x03</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x03D</td>
+                        <td>LVDS反相控制1</td>
+                        <td colspan="8">LVDS pn反相[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x03E</td>
+                        <td>LVDS反相控制2</td>
+                        <td colspan="8">LVDS pn反相[15:8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x03B - 数字I/O控制</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - CLKOUT驱动</p>
+                <p>CLK_OUT驱动强度。设置此位使驱动强度增加约20%。</p>
+                <p><strong>D6</strong> - DATACLK驱动</p>
+                <p>DATA_CLK驱动强度。设置此位使驱动强度增加约20%。</p>
+                <p><strong>[D5:D4]</strong> - DATACLK斜率[1:0]</p>
+                <p>DATA_CLK的斜率控制。1'b00为最快上升/下降时间。1'b11为最慢上升/下降时间。</p>
+                <p><strong>D3</strong> - 必须为0</p>
+                <p><strong>D2</strong> - 数据端口驱动</p>
+                <p>数据端口输出驱动器强度。设置此位使驱动强度增加约20%。</p>
+                <p><strong>[D1:D0]</strong> - 数据端口斜率[1:0]</p>
+                <p>数据端口的斜率控制。1'b00为最快上升/下降时间。1'b11为最慢上升/下降时间。</p>
+            </div>
+
+            <h3>SPI寄存器0x03C - LVDS偏置控制</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - CLK输出斜率[1:0]</p>
+                <p>CLK_OUT的斜率控制。1'b00为最快上升/下降时间。1'b11为最慢上升/下降时间。</p>
+                <p><strong>D5</strong> - Rx芯片终端</p>
+                <p>对所有数据路径位、Tx_FRAME和FB_CLK使用LVDS Rx100片上终端。在CMOS模式下不要设置此位。</p>
+                <p><strong>D4</strong> - 旁路偏置R</p>
+                <p>旁路LVDS Rx比较器中的偏置电阻。</p>
+                <p><strong>D3</strong> - LVDS Tx LO VCM</p>
+                <p>降低输出共模电压60 mV。</p>
+                <p><strong>[D2:D0]</strong> - LVDS偏置[2:0]</p>
+                <p>LVDS驱动器幅度控制。|VOD| = 75 mV至450 mV；75 mV/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x03D和0x03E - LVDS反相控制</h3>
+            <div class="register-description">
+                <p>任何LVDS对的相位都可以通过在这些寄存器中设置位来反转（见下表）。数据位的默认配置是反转的。设置0x03D = 0xFF和0x03E = 0x0F以防止数据反转。时钟和帧信号在默认情况下不反转。</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器和位</th>
+                        <th>影响的信号</th>
+                        <th>芯片默认值</th>
+                        <th>位值</th>
+                        <th>芯片默认配置</th>
+                        <th>推荐配置</th>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D7</td>
+                        <td>P0[3:2]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D6</td>
+                        <td>P0[1:0]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D5</td>
+                        <td>P1[11:10]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D4</td>
+                        <td>P1[9:8]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D3</td>
+                        <td>P1[7:6]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D2</td>
+                        <td>P1[5:4]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D1</td>
+                        <td>P1[3:2]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03D D0</td>
+                        <td>P1[2:0]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D7</td>
+                        <td>FBCLK0</td>
+                        <td>不反转</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D6</td>
+                        <td>Tx帧</td>
+                        <td>不反转</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D5</td>
+                        <td>DATACLK</td>
+                        <td>不反转</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D4</td>
+                        <td>Rx帧</td>
+                        <td>不反转</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D3</td>
+                        <td>P0[11:10]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D2</td>
+                        <td>P0[9:8]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D1</td>
+                        <td>P0[7:6]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>SPI寄存器0x03E D0</td>
+                        <td>P0[5:4]</td>
+                        <td>反转</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="bbpll">
+            <h2>BBPLL控制寄存器（地址0x03F至0x04E）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x03F</td>
+                        <td>BBPLL控制1</td>
+                        <td>必须为0</td>
+                        <td>BBPLL SDM使能B</td>
+                        <td>启动BB VCO校准</td>
+                        <td>BBPLL SDM旁路</td>
+                        <td>BBPLL复位Bar</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x01</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x040</td>
+                        <td>必须为0</td>
+                        <td colspan="8">必须为0</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x041</td>
+                        <td>分数BB频率字1</td>
+                        <td>设为0</td>
+                        <td colspan="5">分数BB频率字[20:16]</td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x042</td>
+                        <td>分数BB频率字2</td>
+                        <td colspan="8">分数BB频率字[15:8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x043</td>
+                        <td>分数BB频率字3</td>
+                        <td colspan="8">分数BB频率字[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x044</td>
+                        <td>整数BB频率字</td>
+                        <td colspan="8">整数BB频率字[7:0]</td>
+                        <td>0x10</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x045</td>
+                        <td>参考时钟分频器</td>
+                        <td>必须为0</td>
+                        <td colspan="2">参考时钟分频器[1:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x046</td>
+                        <td>电荷泵电流</td>
+                        <td>必须为0</td>
+                        <td colspan="6">电荷泵电流[5:0]</td>
+                        <td>0x09</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x047</td>
+                        <td>MCS比例</td>
+                        <td>MCS refclk比例使能</td>
+                        <td colspan="7">必须为0</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x048</td>
+                        <td>环路滤波器1</td>
+                        <td colspan="3">C1字[2:0]</td>
+                        <td colspan="5">R1字[4:0]</td>
+                        <td>0xC5</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x049</td>
+                        <td>环路滤波器2</td>
+                        <td>R2字[0]</td>
+                        <td colspan="5">C2字[4:0]</td>
+                        <td colspan="2">C1字[4:3]</td>
+                        <td>0xB8</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x04A</td>
+                        <td>环路滤波器3</td>
+                        <td>旁路C3</td>
+                        <td>旁路R2</td>
+                        <td colspan="4">C3字[3:0]</td>
+                        <td colspan="2">R2字[2:1]</td>
+                        <td>0x2E</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x04B</td>
+                        <td>VCO控制</td>
+                        <td>频率校准使能</td>
+                        <td colspan="2">设为2'b11</td>
+                        <td>必须为0</td>
+                        <td>强制VCO频段使能</td>
+                        <td colspan="3">强制VCO频段字[2:0]</td>
+                        <td>0xC0</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x04C</td>
+                        <td>必须为0x86</td>
+                        <td colspan="6">设为0x86</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x04D</td>
+                        <td>BBPLL控制2</td>
+                        <td>必须为0</td>
+                        <td colspan="7">见说明</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x04E</td>
+                        <td>BBPLL控制3</td>
+                        <td>必须为0</td>
+                        <td>设为1</td>
+                        <td>必须为0</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>BBPLL寄存器由ad9361_bbpll_set_rate函数完全配置。AD9361参考手册的RF和BBPLL合成器部分有更多关于BBPLL各功能的信息。</p>
+
+            <h3>SPI寄存器0x03F - BBPLL控制1</h3>
+            <div class="register-description">
+                <p><strong>[D7:D4]</strong> - 必须为0</p>
+                <p><strong>D3</strong> - BBPLL SDM使能B</p>
+                <p>测试模式，通常清除。清除此位打开BBPLL SDM的时钟。设置禁用SDM。与BBPLL SDM旁路位（D1）结合使用。</p>
+                <p><strong>D2</strong> - 启动BB VCO校准</p>
+                <p>写入BBPLL字后设置此位校准VCO。寄存器0x04B的位D7必须设置以使能校准。设置后清除启动BB VCO校准位（不自清除）。设置和清除指令可以是连续的，无需等待校准完成。</p>
+                <p><strong>D1</strong> - BBPLL SDM旁路</p>
+                <p>测试模式，通常清除。设置此位将SDM与BBPLL断开，使其成为整数PLL。与BBPLL SDM使能B位（D3）结合使用。</p>
+                <p><strong>D0</strong> - BBPLL复位Bar</p>
+                <p>清除时，BBPLL被禁用。设置此位使能BBPLL。写入BBPLL字后设置此位。</p>
+            </div>
+
+            <h3>SPI寄存器0x040 - 必须为0</h3>
+            <h3>SPI寄存器0x041[D7:D5] - 设为0</h3>
+
+            <h3>SPI寄存器0x041[D4:D0]至SPI寄存器0x044 - 分数和整数BB频率字</h3>
+            <div class="register-description">
+                <p>见以下公式：</p>
+                <div class="equation">
+                    BBPLL整数字 = floor(BBPLL频率(MHz) / 参考时钟频率(MHz))
+                </div>
+                <div class="equation">
+                    BBPLL分数字 = floor((BBPLL频率(MHz) / 参考时钟频率(MHz) - floor(BBPLL频率(MHz) / 参考时钟频率(MHz))) × 2088960)
+                </div>
+                <div class="equation">
+                    FOUT = FREF × (NINTEGER + NFRACTIONAL / 2088960)
+                </div>
+                <p>其中：</p>
+                <ul>
+                    <li>NINTEGER是BBPLL整数字（十进制）。</li>
+                    <li>NFRACTIONAL是BBPLL分数字（十进制）。</li>
+                </ul>
+            </div>
+
+            <h3>SPI寄存器0x045 - 参考时钟分频器</h3>
+            <div class="register-description">
+                <p><strong>[D7:D2]</strong> - 必须为0</p>
+                <p><strong>[D1:D0]</strong> - 参考时钟分频器[1:0]</p>
+                <p>参考时钟频率在进入BBPLL之前被分频。00: ×1；01: ×½；10: ×¼；11: ×2。</p>
+            </div>
+
+            <h3>SPI寄存器0x046 - 电荷泵电流</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - 必须为0</p>
+                <p><strong>[D5:D0]</strong> - 电荷泵电流[5:0]</p>
+                <p>电荷泵泄放电流设置。分辨率：25 μA。偏移：25 μA。范围：25 μA至1575 μA。</p>
+            </div>
+
+            <h3>SPI寄存器0x047 - MCS比例</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - MCS Refclk比例使能</p>
+                <p>仅在使用多芯片同步时适用。设置此位使用BBPLL refclk分频器输出作为检测SYNC_IN引脚转换的时钟域。</p>
+                <p><strong>[D6:D0]</strong> - 必须为0</p>
+            </div>
+
+            <h3>SPI寄存器0x048至0x04A - 环路滤波器</h3>
+            <div class="register-description">
+                <p>这些寄存器由ad9361_bbpll_set_rate函数设置。AD9361参考手册的RF和BBPLL合成器部分有更多关于环路滤波器的信息。</p>
+            </div>
+
+            <h3>SPI寄存器0x04B - VCO控制</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - 频率校准使能</p>
+                <p>设置此位使能VCO校准。另请参见启动BB VCO校准位（0x03F[D2]）。</p>
+                <p><strong>[D6:D5]</strong> - 设为2'b11</p>
+                <p><strong>D4</strong> - 必须为0</p>
+                <p><strong>D3</strong> - 强制VCO频段使能</p>
+                <p>见位[D2:D0]。</p>
+                <p><strong>[D2:D0]</strong> - 强制VCO频段字[2:0]</p>
+                <p>当BBPLL VCO校准完成时，VCO处于5个频段之一，以0到4编码在此寄存器中。设置位D3强制频段字为写入位[D2:D0]的值。</p>
+            </div>
+
+            <h3>SPI寄存器0x04C - 设为0x86</h3>
+            <h3>SPI寄存器0x04D - BBPLL控制2</h3>
+            <div class="register-description">
+                <p><strong>[D6:D3]</strong> - 必须为0</p>
+                <p><strong>[D2:D0]</strong> - 见说明</p>
+                <p>这些是内部BBPLL位。将寄存器0x04C设置为0x086后，将寄存器0x04D设置为0x01，然后设置为0x05。</p>
+            </div>
+
+            <h3>SPI寄存器0x04E - BBPLL控制3</h3>
+            <div class="register-description">
+                <p><strong>[D7:D5]</strong> - 必须为0</p>
+                <p><strong>D4</strong> - 设为1</p>
+                <p><strong>[D3:D0]</strong> - 必须为0</p>
+            </div>
+        </div>
+
+        <div id="power-down">
+            <h2>掉电覆盖寄存器（地址0x050至0x058）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x050</td>
+                        <td>Rx合成器掉电覆盖</td>
+                        <td>开放</td>
+                        <td>Rx LO掉电</td>
+                        <td>Rx合成器VCO ALC掉电</td>
+                        <td>Rx合成器PTAT掉电</td>
+                        <td>Rx合成器VCO掉电</td>
+                        <td>Rx合成器VCO LDO掉电</td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x051</td>
+                        <td>Tx合成器掉电覆盖</td>
+                        <td>开放</td>
+                        <td>Tx LO掉电</td>
+                        <td>Tx合成器VCO ALC掉电</td>
+                        <td>Tx合成器PTAT掉电</td>
+                        <td>Tx合成器VCO掉电</td>
+                        <td>Tx合成器VCO LDO掉电</td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x052</td>
+                        <td>控制0</td>
+                        <td colspan="6">必须为0</td>
+                        <td colspan="2">必须为2'b11</td>
+                        <td>0x03</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x053</td>
+                        <td>必须为0</td>
+                        <td colspan="8">必须为0</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x054</td>
+                        <td>Rx1 ADC掉电覆盖</td>
+                        <td colspan="8">Rx1 ADC掉电[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x055</td>
+                        <td>Rx2 ADC掉电覆盖</td>
+                        <td colspan="8">Rx2 ADC掉电[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x056</td>
+                        <td>Tx模拟掉电覆盖1</td>
+                        <td colspan="2">Tx次级滤波器掉电[1:0]</td>
+                        <td colspan="2">Tx BBF掉电[1:0]</td>
+                        <td colspan="2">Tx DAC掉电[1:0]</td>
+                        <td colspan="2">Tx DAC Bias掉电[1:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x057</td>
+                        <td>模拟掉电覆盖</td>
+                        <td>开放</td>
+                        <td>Rx外部VCO缓冲器掉电</td>
+                        <td>Tx外部VCO缓冲器掉电</td>
+                        <td colspan="2">Tx监控器掉电[1:0]</td>
+                        <td colspan="2">Tx上变频器掉电[1:0]</td>
+                        <td>0x3C</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x058</td>
+                        <td>杂项掉电覆盖</td>
+                        <td>Rx LNA掉电</td>
+                        <td>开放</td>
+                        <td colspan="2">Rx校准掉电[1:0]</td>
+                        <td>DCXO掉电</td>
+                        <td>主偏置掉电</td>
+                        <td></td>
+                        <td></td>
+                        <td>0x30</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x050 - Rx合成器掉电覆盖</h3>
+            <div class="register-description">
+                <p><strong>D4</strong> - Rx LO掉电</p>
+                <p>如果MCS RF禁用（寄存器0x001[D3] = 0），设置此位关闭Rx LO分频器。如果MCS RF使能，ENSM状态机使能和禁用Rx LO分频器。此状态机也使能和禁用Rx合成器。因此，如果D4设置且MCS RF使能，Rx LO分频器在Rx合成器上下电时上下电。对于外部VCO操作，Rx LO分频器始终下电。</p>
+                <p><strong>D3</strong> - Rx合成器VCO ALC掉电</p>
+                <p>设置此位关闭Rx合成器VCO自动电平控制。</p>
+                <p><strong>D2</strong> - Rx合成器PTAT掉电</p>
+                <p>PTAT是用于Rx合成器的温度补偿电流。此位与0x242[D4:D3]的反相进行或运算。要关闭PTAT，设置0x050[D2]并清除0x242[D4:D3]。合成器仍可工作，但不会被温度补偿。</p>
+                <p><strong>D1</strong> - Rx合成器VCO掉电</p>
+                <p>设置此位关闭Rx合成器VCO。</p>
+                <p><strong>D0</strong> - Rx合成器VCO LDO掉电</p>
+                <p>设置此位关闭Rx合成器VCO LDO。</p>
+            </div>
+
+            <h3>SPI寄存器0x051 - Tx合成器掉电覆盖</h3>
+            <div class="register-description">
+                <p>与0x050相同，但控制发射机LO电路。</p>
+            </div>
+
+            <h3>SPI寄存器0x052 - 控制0</h3>
+            <div class="register-description">
+                <p><strong>[D7:D2]</strong> - 必须为0</p>
+                <p><strong>[D1:D0]</strong> - 必须为2'b11</p>
+            </div>
+
+            <h3>SPI寄存器0x053 - 必须为0</h3>
+
+            <h3>SPI寄存器0x054和0x055 - Rx1和Rx2 ADC掉电覆盖</h3>
+            <div class="register-description">
+                <p>这些寄存器控制接收ADC。只有0x00（ADC开启）和0xFF（ADC关闭）是有效设置。</p>
+            </div>
+
+            <h3>SPI寄存器0x056 - Tx模拟掉电覆盖1</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - Tx次级滤波器掉电[1:0]</p>
+                <p>设置这些位关闭Tx次级滤波器。位D6适用于Tx1，位D7适用于Tx2。</p>
+                <p><strong>[D5:D4]</strong> - Tx BBF掉电[1:0]</p>
+                <p>设置这些位关闭Tx基带低通滤波器。位D4适用于Tx1，位D5适用于Tx2。</p>
+                <p><strong>[D3:D2]</strong> - Tx DAC掉电[1:0]</p>
+                <p>设置这些位关闭Tx DAC。位D2适用于Tx1，位D3适用于Tx2。</p>
+                <p><strong>[D1:D0]</strong> - Tx DAC Bias掉电[1:0]</p>
+                <p>设置这些位关闭Tx DAC偏置电源。位D0适用于Tx1，位D1适用于Tx2。</p>
+            </div>
+
+            <h3>SPI寄存器0x057 - 模拟掉电覆盖</h3>
+            <div class="register-description">
+                <p><strong>D5</strong> - Rx外部VCO缓冲器掉电</p>
+                <p>清除此位使用外部VCO。</p>
+                <p><strong>D4</strong> - Tx外部VCO缓冲器掉电</p>
+                <p>功能与位D5相同，但适用于Tx VCO。</p>
+                <p><strong>[D3:D2]</strong> - Tx监控器掉电[1:0]</p>
+                <p>设置这些位关闭Tx监控器LO电路。位D2 = Tx Mon1，位D3 = Tx Mon 2。这些位默认设置。使用Tx监控器功能时（见寄存器0x001和寄存器0x06E），这些位应清除以使能LO电路。</p>
+                <p><strong>[D1:D0]</strong> - Tx上变频器掉电[1:0]</p>
+                <p>设置这些位关闭Tx上变频器。位D0适用于Tx1，位D1适用于Tx2。</p>
+            </div>
+
+            <h3>SPI寄存器0x058 - 杂项掉电覆盖</h3>
+            <div class="register-description">
+                <p><strong>D6</strong> - Rx LNA掉电</p>
+                <p>设置此位关闭Rx LNA。</p>
+                <p><strong>[D3:D2]</strong> - Rx校准掉电[1:0]</p>
+                <p>设置这些位关闭Rx校准块。位D3适用于Rx1，位D4适用于Rx2。</p>
+                <p><strong>D1</strong> - DCXO掉电</p>
+                <p>使用外部参考时钟时设置以节省功率。</p>
+                <p><strong>D0</strong> - 主偏置掉电</p>
+                <p>设置此位关闭所有模拟偏置。只有漏电流流动。</p>
+            </div>
+        </div>
+
+        <div id="overflow">
+            <h2>溢出寄存器（地址0x05E至0x05F）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x05E</td>
+                        <td>CH1溢出</td>
+                        <td>BBPLL锁定</td>
+                        <td>CH1 INT3</td>
+                        <td>CH1 HB3</td>
+                        <td>CH1 HB2</td>
+                        <td>CH1 QEC</td>
+                        <td>CH1 HB1</td>
+                        <td>CH1 TFIR</td>
+                        <td>CH1 RFIR</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x05F</td>
+                        <td>CH2溢出</td>
+                        <td>开放</td>
+                        <td>CH2 INT3</td>
+                        <td>CH2 HB3</td>
+                        <td>CH2 HB2</td>
+                        <td>CH2 QEC</td>
+                        <td>CH2 HB1</td>
+                        <td>CH2 TFIR</td>
+                        <td>CH2 RFIR</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p class="note">注意：所有溢出位不自清除。初始化期间，一些溢出位可能显示溢出。要读取位的当前状态，请执行两次连续的SPI读取。</p>
+
+            <h3>SPI寄存器0x05E - CH1溢出</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - BBPLL锁定</p>
+                <p>如果设置此位，BBPLL已锁定。</p>
+                <p><strong>D6</strong> - CH1 INT3</p>
+                <p>如果设置此位，Tx1插值3滤波器发生数字溢出。</p>
+                <p><strong>D5</strong> - CH1 HB3</p>
+                <p>如果设置此位，Tx1半带3滤波器发生数字溢出。</p>
+                <p><strong>D4</strong> - CH1 HB2</p>
+                <p>如果设置此位，Tx1半带2滤波器发生数字溢出。</p>
+                <p><strong>D3</strong> - CH1 QEC</p>
+                <p>如果设置此位，Tx1正交误差校正滤波器发生数字溢出。</p>
+                <p><strong>D2</strong> - CH1 HB1</p>
+                <p>如果设置此位，Tx1半带1滤波器发生数字溢出。</p>
+                <p><strong>D1</strong> - CH1 TFIR</p>
+                <p>如果设置此位，Tx1 FIR滤波器发生数字溢出。</p>
+                <p><strong>D0</strong> - CH1 RFIR</p>
+                <p>如果设置此位，Rx1 FIR滤波器发生数字溢出。</p>
+            </div>
+
+            <h3>SPI寄存器0x05F - CH2溢出</h3>
+            <div class="register-description">
+                <p>此寄存器与寄存器0x05E相同，但适用于通道2。</p>
+            </div>
+        </div>
+
+        <div id="tx-config">
+            <h2>发射机配置</h2>
+
+            <h3>Tx可编程FIR滤波器寄存器（地址0x060至0x065）</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x060</td>
+                        <td>Tx滤波器系数地址</td>
+                        <td colspan="8">Tx滤波器系数地址[7:0]</td>
+                        <td>0x--</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x061</td>
+                        <td>Tx滤波器系数写入数据1</td>
+                        <td colspan="8">Tx滤波器系数写入数据[7:0]</td>
+                        <td>0x--</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x062</td>
+                        <td>Tx滤波器系数写入数据2</td>
+                        <td colspan="8">Tx滤波器系数写入数据[15:8]</td>
+                        <td>0x--</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x063</td>
+                        <td>Tx滤波器系数读取数据1</td>
+                        <td colspan="8">Tx滤波器系数读取数据[7:0]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x064</td>
+                        <td>Tx滤波器系数读取数据2</td>
+                        <td colspan="8">Tx滤波器系数读取数据[15:8]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x065</td>
+                        <td>Tx滤波器配置</td>
+                        <td colspan="3">抽头数[2:0]</td>
+                        <td colspan="2">选择Tx CH[1:0]</td>
+                        <td>写入Tx</td>
+                        <td>启动Tx时钟</td>
+                        <td>滤波器增益</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_set_tx_fir_config函数设置Tx FIR系数。更多信息请参见AD9361参考手册的滤波器指南部分。</p>
+
+            <h3>SPI寄存器0x060 - Tx滤波器系数地址</h3>
+            <div class="register-description">
+                <p>数字滤波器系数是间接可寻址的。本寄存器中的字是系数的地址。</p>
+            </div>
+
+            <h3>SPI寄存器0x061和0x062 - Tx滤波器系数写入数据n</h3>
+            <div class="register-description">
+                <p>将系数值写入这些寄存器。在设置0x065[D2]之前写入这些寄存器（以及寄存器0x060）。系数是二进制补码格式的16位字。最低有效位是位0。</p>
+            </div>
+
+            <h3>SPI寄存器0x063和0x064 - Tx滤波器系数读取数据n</h3>
+            <div class="register-description">
+                <p>要读取系数，在寄存器0x060中写入地址，然后读取寄存器0x063和寄存器0x064。系数是二进制补码格式的16位字。最低有效位是位0。</p>
+            </div>
+
+            <h3>SPI寄存器0x065 - Tx滤波器配置</h3>
+            <div class="register-description">
+                <p><strong>[D7:D5]</strong> - 抽头数[2:0]</p>
+                <p>抽头数必须正确，如下公式：</p>
+                <div class="equation">
+                    #抽头数 = 16 × (抽头数 + 1)
+                </div>
+                <p><strong>[D4:D3]</strong> - 选择Tx CH[1:0]</p>
+                <p>写入系数时，位D3导致写入Tx1，位D4导致写入Tx2，两位都设置则写入两个Tx滤波器。读取系数时，设置两位是无效情况。</p>
+                <p><strong>D2</strong> - 写入Tx</p>
+                <p>设置此自清除位写入系数。每次写入操作必须设置此位。编程表后，向寄存器0x065写入清除写入Tx位且D0为高的值。然后，再次写入寄存器0x065且D0清除，从而确保在时钟停止之前写入位内部复位。设置D2为高后等待4个Tx采样周期，同时数据写入表中。</p>
+                <p><strong>D1</strong> - 启动Tx时钟</p>
+                <p>写入系数时设置此位启动编程时钟。</p>
+                <p><strong>D0</strong> - 滤波器增益</p>
+                <p>设置此位将数字样本衰减6 dB。</p>
+            </div>
+
+            <h3>Tx监控器寄存器（地址0x067至0x071）</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x067</td>
+                        <td>Tx Mon低增益</td>
+                        <td>开放</td>
+                        <td>Tx Mon跟踪</td>
+                        <td colspan="5">Tx Mon低增益[4:0]</td>
+                        <td>0x13</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x068</td>
+                        <td>Tx Mon高增益</td>
+                        <td>开放</td>
+                        <td colspan="5">Tx Mon高增益[4:0]</td>
+                        <td>0x18</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x069</td>
+                        <td>Tx Mon延迟计数器</td>
+                        <td colspan="8">Tx Mon延迟计数器[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x06A</td>
+                        <td>Tx电平阈值</td>
+                        <td colspan="6">Tx电平阈值[5:0]</td>
+                        <td colspan="2">Tx Mon延迟计数器[9:8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x06B</td>
+                        <td>Tx RSSI1</td>
+                        <td colspan="8">Tx RSSI 1[8:1]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x06C</td>
+                        <td>Tx RSSI2</td>
+                        <td colspan="8">Tx RSSI 2[8:1]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x06D</td>
+                        <td>Tx RSSI LSB</td>
+                        <td>开放</td>
+                        <td colspan="2">Tx RSSI 2[0]</td>
+                        <td colspan="2">Tx RSSI 1[0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x06E</td>
+                        <td>TPM模式使能</td>
+                        <td>Tx Mon 2使能</td>
+                        <td>必须为0</td>
+                        <td>Tx Mon 1使能</td>
+                        <td>开放</td>
+                        <td colspan="4">Tx Mon持续时间[3:0]</td>
+                        <td>0xA9</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x06F</td>
+                        <td>温度增益系数</td>
+                        <td colspan="8">温度增益系数[7:0]用于Tx Mon</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x070</td>
+                        <td>Tx Mon 1配置</td>
+                        <td colspan="6">必须为6'b110000</td>
+                        <td colspan="2">Tx Mon 1 TIA增益[1:0]</td>
+                        <td>0xC1</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x071</td>
+                        <td>Tx Mon 2配置</td>
+                        <td colspan="6">必须为6'b110000</td>
+                        <td colspan="2">Tx Mon 2 TIA增益[1:0]</td>
+                        <td>0xC1</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x067 - Tx Mon低增益</h3>
+            <div class="register-description">
+                <p><strong>D5</strong> - Tx Mon跟踪</p>
+                <p>设置此位使能Tx监控器的DC偏移跟踪。</p>
+                <p><strong>[D4:D0]</strong> - Tx Mon低增益[4:0]</p>
+                <p>当寄存器0x073和0x074中的Tx衰减值≤寄存器0x078中的阈值时，此值设置Rx LPF增益索引。</p>
+            </div>
+
+            <h3>SPI寄存器0x068 - Tx Mon高增益</h3>
+            <div class="register-description">
+                <p>当寄存器0x073和0x074中的Tx衰减值大于寄存器0x078中的阈值时，此值设置Rx LPF增益索引。</p>
+            </div>
+
+            <h3>SPI寄存器0x069和0x06A[D1:D0] - Tx Mon延迟计数器</h3>
+            <div class="register-description">
+                <p>ENSM进入Tx状态后，如果0x06A[D7:D2] = 0，Tx Mon延迟计数器开始。如果0x06A[D7:D2]非零，AD9361将I和Q样本的6个MSB与0x06A[D7:D2]进行比较。如果超过0x06A[D7:D2]，Tx Mon延迟计数器开始。过期后，AD9361测量Tx RSSI。分辨率为64 × ADC时钟/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x06A - Tx电平阈值</h3>
+            <div class="register-description">
+                <p><strong>[D7:D2]</strong> - Tx电平阈值[5:0]</p>
+                <p>见寄存器0x069。</p>
+            </div>
+
+            <h3>SPI寄存器0x06B至0x06D - Tx RSSI n</h3>
+            <div class="register-description">
+                <p>Tx RSSI字。分辨率为0.25 dB/LSB。单位为负dB。</p>
+            </div>
+
+            <h3>SPI寄存器0x06E - TPM模式使能</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - Tx Mon 2使能</p>
+                <p>此位使能TX_MON2功能。设置时，当ENSM移动到Tx状态时，TX_MON2引脚上的信号传递到TPM块。当ENSM移动到Rx状态时，接收路径正常操作。清除时，Tx Mon 2功能禁用。见寄存器0x001和寄存器0x057。</p>
+                <p><strong>D5</strong> - Tx Mon 1使能</p>
+                <p>与位D7相同，但适用于TX_MON1引脚。</p>
+                <p><strong>[D3:D0]</strong> - Tx Mon持续时间[3:0]</p>
+                <p>此寄存器按下式指定Tx RSSI测量的持续时间：</p>
+                <div class="equation">
+                    持续时间(Tx采样周期) = 16 × 2^Tx mon持续时间[3:0]
+                </div>
+            </div>
+
+            <h3>SPI寄存器0x06F - Tx Mon温度增益系数[7:0]</h3>
+            <div class="register-description">
+                <p>如果需要非常高的精度，在系统特性分析期间，将确定每°C的增益差比率，然后以二进制补码表示法编码。分辨率为0.0078 dB/°C/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x070和0x071 - Tx Mon n配置</h3>
+            <div class="register-description">
+                <p><strong>[D7:D2]</strong> - 必须为6'b110000</p>
+                <p><strong>[D1:D0]</strong> - Tx Mon n增益[1:0]</p>
+                <p>这些位按下表控制Tx监控器前端的增益：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Tx Mon增益[1:0]</th>
+                        <th>Tx监控器增益</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>开放</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>0 dB</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>6 dB</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>9.5 dB</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Tx功率控制和衰减寄存器（地址0x073至0x07C）</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x073</td>
+                        <td>Tx1衰减0</td>
+                        <td colspan="8">Tx 1衰减[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x074</td>
+                        <td>Tx1衰减1</td>
+                        <td>开放</td>
+                        <td colspan="7">Tx 1衰减[8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x075</td>
+                        <td>Tx2衰减0</td>
+                        <td colspan="8">Tx 2衰减[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x076</td>
+                        <td>Tx2衰减1</td>
+                        <td>开放</td>
+                        <td colspan="7">Tx 2衰减[8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x077</td>
+                        <td>Tx衰减偏移</td>
+                        <td>开放</td>
+                        <td>屏蔽Clr衰减更新</td>
+                        <td colspan="6">Tx衰减偏移[5:0]</td>
+                        <td>0x40</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x078</td>
+                        <td>Tx衰减阈值</td>
+                        <td colspan="8">Tx衰减阈值[7:0]</td>
+                        <td>0x3C</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x079</td>
+                        <td>选择Tx1/Tx2</td>
+                        <td>开放</td>
+                        <td>选择Tx1和Tx2</td>
+                        <td>必须为0</td>
+                        <td>开放</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x07C</td>
+                        <td>立即更新</td>
+                        <td>开放</td>
+                        <td>立即更新TPC衰减</td>
+                        <td>必须为0</td>
+                        <td>开放</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_set_tx_attenuation函数配置衰减。</p>
+
+            <h3>SPI寄存器0x073和0x074 - Tx 1衰减[8:0]</h3>
+            <div class="register-description">
+                <p>这个9位字设置Tx路径衰减。零=零衰减。分辨率为0.25 dB/LSB。范围为0到359（十进制）。</p>
+            </div>
+
+            <h3>SPI寄存器0x075和0x076 - Tx 2衰减[8:0]</h3>
+            <div class="register-description">
+                <p>Tx2衰减的功能与寄存器0x073和0x074相同，但适用于Tx2。</p>
+            </div>
+
+            <h3>SPI寄存器0x077 - Tx衰减偏移</h3>
+            <div class="register-description">
+                <p><strong>D6</strong> - 屏蔽Clr衰减更新</p>
+                <p>清除时，寄存器0x07C[D6]中的立即更新TPC衰减位自清除。设置时，立即更新TPC衰减位不自清除。</p>
+                <p><strong>[D5:D0]</strong> - Tx衰减偏移[5:0]</p>
+                <p>此无符号值添加到寄存器0x073至0x076中的字，得到新的衰减字。分辨率为0.25 dB/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x078 - Tx衰减阈值</h3>
+            <div class="register-description">
+                <p>见0x067[4:0]和寄存器0x068。分辨率为0.25 dB/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x079 - 选择Tx1/Tx2</h3>
+            <div class="register-description">
+                <p><strong>D6</strong> - 选择Tx1和Tx2</p>
+                <p>使用Tx1衰减值为Tx1和Tx2都设置衰减值。</p>
+                <p><strong>D5</strong> - 必须为0</p>
+            </div>
+
+            <h3>SPI寄存器0x07C - 立即更新</h3>
+            <div class="register-description">
+                <p><strong>D6</strong> - 立即更新TPC衰减</p>
+                <p>见寄存器0x077[D6]。</p>
+                <p><strong>D5</strong> - 必须为0</p>
+            </div>
+        </div>
+
+        <div id="rx-config">
+            <h2>接收机配置</h2>
+
+            <h3>Rx可编程FIR滤波器寄存器（地址0x0F0至0x0F6）</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x0F0</td>
+                        <td>Rx滤波器系数地址</td>
+                        <td colspan="8">Rx滤波器地址[7:0]</td>
+                        <td>0x--</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0F1</td>
+                        <td>Rx滤波器系数数据1</td>
+                        <td colspan="8">Rx滤波器系数写入数据[7:0]</td>
+                        <td>0x--</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0F2</td>
+                        <td>Rx滤波器系数数据2</td>
+                        <td colspan="8">Rx滤波器系数写入数据[15:8]</td>
+                        <td>0x--</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0F3</td>
+                        <td>Rx滤波器系数读取数据1</td>
+                        <td colspan="8">Rx滤波器系数读取数据[7:0]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x0F4</td>
+                        <td>Rx滤波器系数读取数据2</td>
+                        <td colspan="8">Rx滤波器系数读取数据[15:8]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x0F5</td>
+                        <td>Rx滤波器配置</td>
+                        <td colspan="3">抽头数[2:0]</td>
+                        <td colspan="2">选择Rx CH[1:0]</td>
+                        <td>写入Rx</td>
+                        <td>启动Rx时钟</td>
+                        <td>开放</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0F6</td>
+                        <td>Rx滤波器增益</td>
+                        <td>开放</td>
+                        <td colspan="2">滤波器增益[1:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_set_rx_fir_config函数加载FIR滤波器系数并设置其他FIR参数。</p>
+
+            <h3>SPI寄存器0x0F5 - Rx滤波器配置</h3>
+            <div class="register-description">
+                <p><strong>[D7:D5]</strong> - 抽头数[2:0]</p>
+                <p>Rx滤波器的抽头数必须正确，如下表：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>抽头数</th>
+                        <th>抽头数[2:0]</th>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>000</td>
+                    </tr>
+                    <tr>
+                        <td>32</td>
+                        <td>001</td>
+                    </tr>
+                    <tr>
+                        <td>48</td>
+                        <td>010</td>
+                    </tr>
+                    <tr>
+                        <td>64</td>
+                        <td>011</td>
+                    </tr>
+                    <tr>
+                        <td>80</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>96</td>
+                        <td>101</td>
+                    </tr>
+                    <tr>
+                        <td>112</td>
+                        <td>110</td>
+                    </tr>
+                    <tr>
+                        <td>128</td>
+                        <td>111</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0xF6 - Rx滤波器增益</h3>
+            <div class="register-description">
+                <p>这些位影响RFIR滤波器后添加到数字样本的数字增益，如下表：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Rx滤波器增益[1:0]</th>
+                        <th>增益</th>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>-12 dB</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>-6 dB</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0 dB（默认）</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>+6 dB</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>增益控制通用设置寄存器（地址0x0FA至0x10E）</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x0FA</td>
+                        <td>AGC配置1</td>
+                        <td colspan="3">设为3'b111</td>
+                        <td>慢速攻击混合模式</td>
+                        <td colspan="2">Rx2增益控制设置[1:0]</td>
+                        <td colspan="2">Rx1增益控制设置[1:0]</td>
+                        <td>0xE0</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0FB</td>
+                        <td>AGC配置2</td>
+                        <td>必须为0</td>
+                        <td>增益解锁控制</td>
+                        <td>开放</td>
+                        <td>使用完整增益表</td>
+                        <td>使能数字增益</td>
+                        <td>手动增益控制Rx2</td>
+                        <td>手动增益控制Rx1</td>
+                        <td></td>
+                        <td>0x08</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0FC</td>
+                        <td>AGC配置3</td>
+                        <td colspan="3">手动(CTRL_IN)增量增益步长[2:0]</td>
+                        <td>Inc/Dec LMT增益</td>
+                        <td>使用AGC用于LMT/LPF增益</td>
+                        <td colspan="3">ADC过载样本大小[2:0]</td>
+                        <td>0x03</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0FD</td>
+                        <td>最大LMT/完整增益</td>
+                        <td>开放</td>
+                        <td colspan="7">最大完整表/LMT表索引[6:0]</td>
+                        <td>0x4C</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x0FE</td>
+                        <td>峰值等待时间</td>
+                        <td colspan="3">手动(CTRL_IN)减量增益步长[2:0]</td>
+                        <td colspan="5">峰值过载等待时间[4:0]</td>
+                        <td>0x44</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x100</td>
+                        <td>数字增益</td>
+                        <td colspan="3">数字增益步长[2:0]</td>
+                        <td colspan="5">最大数字增益[4:0]</td>
+                        <td>0x6F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x101</td>
+                        <td>AGC锁定电平使能</td>
+                        <td>数字饱和过载</td>
+                        <td colspan="7">AGC锁定电平(快速)/AGC内高阈值(慢速)[6:0]</td>
+                        <td>0x0A</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x103</td>
+                        <td>增益步长配置1</td>
+                        <td>必须为0</td>
+                        <td colspan="3">大LMT过载/完整表情况#3的减量步长[2:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x08</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x104</td>
+                        <td>ADC小过载阈值</td>
+                        <td colspan="8">ADC小过载阈值[7:0]</td>
+                        <td>0x2F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x105</td>
+                        <td>ADC大过载阈值</td>
+                        <td colspan="8">ADC大过载阈值[7:0]</td>
+                        <td>0x3A</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x106</td>
+                        <td>增益步长配置2</td>
+                        <td>开放</td>
+                        <td colspan="3">仅快速攻击。小LPF增益变化/完整表情况#2的减量步长[2:0]</td>
+                        <td colspan="4">大LPF增益变化/完整表情况#1的减量步长[3:0]</td>
+                        <td>0x25</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x107</td>
+                        <td>小LMT过载阈值</td>
+                        <td>强制PD重置Rx2</td>
+                        <td>强制PD重置Rx1</td>
+                        <td colspan="6">小LMT过载阈值[5:0]</td>
+                        <td>0x3F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x108</td>
+                        <td>大LMT过载阈值</td>
+                        <td>开放</td>
+                        <td colspan="7">大LMT过载阈值[5:0]</td>
+                        <td>0x1F</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x109</td>
+                        <td>Rx1手动LMT/完整增益</td>
+                        <td>状态5中功率测量[3]</td>
+                        <td colspan="7">Rx1手动完整表/LMT表增益索引[6:0]</td>
+                        <td>0x4C</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x10A</td>
+                        <td>Rx1手动LPF增益</td>
+                        <td>状态5中功率测量[2:0]</td>
+                        <td colspan="5">Rx1手动LPF增益[4:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x58</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x10B</td>
+                        <td>Rx1手动数字/强制增益</td>
+                        <td>开放</td>
+                        <td colspan="5">Rx1手动/强制数字增益[4:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x10C</td>
+                        <td>Rx2手动LMT/完整增益</td>
+                        <td>开放</td>
+                        <td colspan="7">Rx2手动完整表/LMT表增益索引[6:0]</td>
+                        <td>0x4C</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x10D</td>
+                        <td>Rx2手动LPF增益</td>
+                        <td>开放</td>
+                        <td colspan="5">Rx2手动LPF增益[4:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x18</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x10E</td>
+                        <td>Rx2手动数字/强制增益</td>
+                        <td>开放</td>
+                        <td colspan="5">Rx2手动/强制数字增益[4:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>这些寄存器由ad9361_set_rx_gain_control_mode函数配置。对于某些应用，可能需要修改寄存器值。更多信息请参见AD9361参考手册的增益控制部分。</p>
+
+            <h3>SPI寄存器0x0FA - AGC配置1</h3>
+            <div class="register-description">
+                <p><strong>[D7:D5]</strong> - 设为3'b111</p>
+                <p><strong>D4</strong> - 慢速攻击混合AGC模式</p>
+                <p>设置使用混合AGC模式。否则清除。</p>
+                <p><strong>[D3:D2]</strong> - Rx2增益控制设置[1:0]</p>
+                <p>增益控制操作按下表映射到这些设置位：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>增益控制设置[1:0]</th>
+                        <th>增益控制模式</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>手动增益</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>快速攻击自动增益控制(AGC)</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>慢速攻击AGC</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>混合AGC - 也要设置0x0FA[D4]</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>SPI寄存器0x0FB - AGC配置2</h3>
+            <div class="register-description">
+                <p><strong>D7</strong> - 必须为0</p>
+                <p><strong>D6</strong> - 增益解锁控制</p>
+                <p>适用于快速AGC，允许增益在某些过载条件下保持锁定。</p>
+                <p><strong>D3</strong> - 使用完整增益表</p>
+                <p>设置此位使用完整增益表。清除使用分离增益表。</p>
+                <p><strong>D2</strong> - 使能数字增益</p>
+                <p>此位在分离增益表模式下用于使能数字增益指针。</p>
+                <p><strong>D1</strong> - 手动增益控制Rx2</p>
+                <p>适用于MGC。如果此位清除，SPI写入改变增益。设置此位时，控制输入引脚控制增益。如果此位转换到高电平，增益复位到最大值。</p>
+                <p><strong>D0</strong> - 手动增益控制Rx1</p>
+                <p>此位功能与位D1相同，但适用于Rx1。</p>
+            </div>
+
+            <h3>SPI寄存器0x0FD - 最大LMT/完整增益</h3>
+            <div class="register-description">
+                <p>此寄存器必须设置为增益表的最大增益索引。</p>
+            </div>
+
+            <h3>SPI寄存器0x100 - 数字增益</h3>
+            <div class="register-description">
+                <p><strong>[D7:D5]</strong> - 数字增益步长[2:0]</p>
+                <p>适用于AGC模式，如果数字增益使能（0x0FB[D2]设置）和分离增益表（0x0FB[D3]清除）。如果发生数字饱和，数字增益减少此寄存器+1。</p>
+                <p><strong>[D4:D0]</strong> - 最大数字增益[4:0]</p>
+                <p>适用于数字增益使能（0x0FB[D2]设置）时，等于最大允许数字增益，适用于所有增益控制模式。最大值为31 dB。分辨率为1 dB/LSB。</p>
+            </div>
+
+            <h3>SPI寄存器0x107 - 小LMT过载阈值</h3>
+            <div class="register-description">
+                <p><strong>[D5:D0]</strong> - 小LMT过载阈值[5:0]</p>
+                <p>这些位按下式设置小LMT过载阈值，这是AGC与LPF输入端信号进行比较的两个值之一。此寄存器应小于寄存器0x108。有效范围为0x07到0x31。</p>
+                <div class="equation">
+                    LMT过载阈值(mV峰值) = 16 mV × (LMT过载阈值[5:0] + 1)
+                </div>
+            </div>
+        </div>
+
+        <div id="rx-analog">
+            <h2>接收机模拟寄存器</h2>
+
+            <h3>Rx合成器寄存器（地址0x230至0x251）</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x230</td>
+                        <td>禁用VCO校准</td>
+                        <td colspan="4">必须为0x5</td>
+                        <td colspan="3">必须为3'b010</td>
+                        <td>禁用VCO校准</td>
+                        <td>0x54</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x231</td>
+                        <td>整数字节0</td>
+                        <td colspan="8">合成器整数字[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x232</td>
+                        <td>整数字节1</td>
+                        <td>SDM旁路</td>
+                        <td>SDM掉电</td>
+                        <td>开放</td>
+                        <td colspan="5">合成器整数字[10:8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x233</td>
+                        <td>分数字节0</td>
+                        <td colspan="8">合成器分数字[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x234</td>
+                        <td>分数字节1</td>
+                        <td colspan="8">合成器分数字[15:8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x235</td>
+                        <td>分数字节2</td>
+                        <td>开放</td>
+                        <td colspan="7">合成器分数字[22:16]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x236</td>
+                        <td>强制ALC</td>
+                        <td>强制ALC使能</td>
+                        <td colspan="7">强制ALC字[6:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x237</td>
+                        <td>强制VCO调谐0</td>
+                        <td colspan="8">强制VCO调谐[7:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x238</td>
+                        <td>强制VCO调谐1</td>
+                        <td colspan="6">必须为0</td>
+                        <td>强制VCO调谐使能</td>
+                        <td>强制VCO调谐[8]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x239</td>
+                        <td>ALC/变容二极管初始化</td>
+                        <td colspan="4">初始化ALC值[3:0]</td>
+                        <td colspan="4">VCO变容二极管[3:0]</td>
+                        <td>0x82</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x23A</td>
+                        <td>VCO输出</td>
+                        <td>开放</td>
+                        <td>PORb VCO</td>
+                        <td>逻辑</td>
+                        <td>开放</td>
+                        <td colspan="4">VCO输出电平[3:0]</td>
+                        <td>0x0A</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x23B</td>
+                        <td>CP电流</td>
+                        <td>设为1</td>
+                        <td>VTune输出</td>
+                        <td colspan="6">电荷泵电流[5:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x23C</td>
+                        <td>CP偏移合成器重新校准</td>
+                        <td>开放</td>
+                        <td colspan="6">电荷泵偏移[5:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x23D</td>
+                        <td>CP配置</td>
+                        <td>必须为0</td>
+                        <td>抖动模式</td>
+                        <td>开放</td>
+                        <td>CP偏移关闭</td>
+                        <td>强制Cp校准</td>
+                        <td>Cp校准使能</td>
+                        <td colspan="2">必须为2'b00</td>
+                        <td>0x80</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x23E</td>
+                        <td>环路滤波器1</td>
+                        <td colspan="4">环路滤波器C2[3:0]</td>
+                        <td colspan="4">环路滤波器C1[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x23F</td>
+                        <td>环路滤波器2</td>
+                        <td colspan="4">环路滤波器R1[3:0]</td>
+                        <td colspan="4">环路滤波器C3[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x240</td>
+                        <td>环路滤波器3</td>
+                        <td>旁路R3</td>
+                        <td>旁路R1</td>
+                        <td>旁路C2</td>
+                        <td>旁路C1</td>
+                        <td colspan="4">环路滤波器R3[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x241</td>
+                        <td>抖动/CP校准</td>
+                        <td colspan="4">SDM抖动位数[3:0]</td>
+                        <td colspan="4">强制CP校准字[3:0]</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x242</td>
+                        <td>VCO偏置1</td>
+                        <td>开放</td>
+                        <td colspan="3">VCO偏置Tcf[1:0]</td>
+                        <td colspan="4">VCO偏置Ref[2:0]</td>
+                        <td>0x04</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x244</td>
+                        <td>校准状态</td>
+                        <td>CP校准有效</td>
+                        <td>开放</td>
+                        <td>CP校准完成</td>
+                        <td>VCO校准忙</td>
+                        <td colspan="4">CP校准字[3:0]</td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x247</td>
+                        <td>CP过载/VCO锁定</td>
+                        <td>CP过载高</td>
+                        <td>CP过载低</td>
+                        <td>开放</td>
+                        <td>Rx PLL锁定</td>
+                        <td>开放</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x--</td>
+                        <td>R</td>
+                    </tr>
+                    <tr>
+                        <td>0x249</td>
+                        <td>VCO校准</td>
+                        <td>设为1</td>
+                        <td colspan="3">必须为3'b000</td>
+                        <td colspan="2">VCO校准计数[1:0]</td>
+                        <td colspan="2">必须为2'b10</td>
+                        <td>0x02</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x24A</td>
+                        <td>锁定检测配置</td>
+                        <td>开放</td>
+                        <td colspan="2">锁定检测计数[1:0]</td>
+                        <td colspan="2">锁定检测模式[1:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x02</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x251</td>
+                        <td>VCO变容二极管控制1</td>
+                        <td>开放</td>
+                        <td colspan="4">VCO变容二极管参考[3:0]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>0x08</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_txrx_synth_cp_calib函数设置本节中的所有寄存器。AD9361参考手册的RF和BBPLL合成器部分有更多详细信息。</p>
+
+            <h3>VCO频率字</h3>
+            <div class="register-description">
+                <p>SPI寄存器0x231、SPI寄存器0x232[D2:D0]和SPI寄存器0x233至SPI寄存器0x235 - VCO频率字</p>
+                <p>这些字设置VCO频率，范围为6 GHz至12 GHz。寄存器0x005中的分频器将此频率分频到应用所需的最终LO频率。整数和分数字由以下公式推导。所有频率必须使用相同单位（例如MHz）。</p>
+                <div class="equation">
+                    NINTEGER floor = (FVCOfloor / FREF)
+                </div>
+                <div class="equation">
+                    NFRACTIONAL round = round((FVCOfloor / FREF - NINTEGER) × 8,388,593)
+                </div>
+                <p>其中：</p>
+                <ul>
+                    <li>FREF = 参考时钟频率（外部或DCXO）。此速率在0x2AB[D0]和0x2AC[D7]中的参考分频器之后。</li>
+                    <li>NINTEGER = 编程到寄存器0x231和寄存器0x232中的11位整数字。</li>
+                    <li>NFRACTIONAL = 编程到寄存器0x233至寄存器0x235中的23位分数字。</li>
+                </ul>
+            </div>
+
+            <h3>锁定检测配置</h3>
+            <div class="register-description">
+                <p><strong>[D3:D2]</strong> - 锁定检测计数[1:0]</p>
+                <p>如果在指定时间内RF PLL锁定，Rx PLL锁定位（0x247[D1]）变为高电平。时间按参考时钟周期测量，如下表：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>锁定检测计数[1:0]</th>
+                        <th>参考时钟周期</th>
+                    </tr>
+                    <tr>
+                        <td>0 0</td>
+                        <td>256</td>
+                    </tr>
+                    <tr>
+                        <td>0 1</td>
+                        <td>512</td>
+                    </tr>
+                    <tr>
+                        <td>1 0</td>
+                        <td>1024</td>
+                    </tr>
+                    <tr>
+                        <td>1 1</td>
+                        <td>2048</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>[D1:D0]</strong> - 锁定检测模式[1:0]</p>
+                <p>这些位按下表设置锁定检测工作模式：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>锁定检测模式[1:0]</th>
+                        <th>RFPLL锁定检测模式</th>
+                    </tr>
+                    <tr>
+                        <td>0 0</td>
+                        <td>禁用锁定检测</td>
+                    </tr>
+                    <tr>
+                        <td>0 1</td>
+                        <td>RFPLL使能时运行锁定检测一次</td>
+                    </tr>
+                    <tr>
+                        <td>1 0</td>
+                        <td>持续运行锁定检测</td>
+                    </tr>
+                    <tr>
+                        <td>1 1</td>
+                        <td>不使用</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="control-reg">
+            <h2>控制寄存器（寄存器0x3DF）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x3DF</td>
+                        <td>控制</td>
+                        <td>开放</td>
+                        <td colspan="7">设为1</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>ad9361_init函数设置此寄存器。</p>
+        </div>
+
+        <div id="digital-test">
+            <h2>数字测试寄存器（地址0x3F4至0x3F6）</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>寄存器地址</th>
+                        <th>名称</th>
+                        <th>D7</th>
+                        <th>D6</th>
+                        <th>D5</th>
+                        <th>D4</th>
+                        <th>D3</th>
+                        <th>D2</th>
+                        <th>D1</th>
+                        <th>D0</th>
+                        <th>默认值</th>
+                        <th>R/W</th>
+                    </tr>
+                    <tr>
+                        <td>0x3F4</td>
+                        <td>BIST配置</td>
+                        <td colspan="2">音调频率[1:0]</td>
+                        <td colspan="2">音调电平[1:0]</td>
+                        <td colspan="2">BIST控制点[1:0]</td>
+                        <td>音调/PRBS</td>
+                        <td>BIST使能</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x3F5</td>
+                        <td>BIST配置2</td>
+                        <td>数据端口SP, HD循环测试OE</td>
+                        <td>Rx屏蔽</td>
+                        <td>通道</td>
+                        <td colspan="4">必须为4'b0000</td>
+                        <td>数据端口循环测试使能</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                    <tr>
+                        <td>0x3F6</td>
+                        <td>BIST和数据端口测试配置</td>
+                        <td colspan="2">必须为2'b00</td>
+                        <td>BIST屏蔽通道2 Q数据</td>
+                        <td>BIST屏蔽通道2 I数据</td>
+                        <td>BIST屏蔽通道1 Q数据</td>
+                        <td>BIST屏蔽通道1 I数据</td>
+                        <td colspan="2">必须为2'b00</td>
+                        <td>0x00</td>
+                        <td>R/W</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>请参阅Engineer Zone获取描述BIST功能更多细节的常见问题解答。</p>
+
+            <h3>SPI寄存器0x3F4 - BIST配置 - 测试寄存器</h3>
+            <div class="register-description">
+                <p><strong>[D7:D6]</strong> - 音调频率[1:0]</p>
+                <p>根据以下公式设置BIST频率：</p>
+                <div class="equation">
+                    BIST音调频率 = Clk × (音调频率[1:0] + 1) / 32
+                </div>
+                <p>其中：</p>
+                <ul>
+                    <li>音调频率单位与Clk相同。</li>
+                    <li>Clk是下表中所示的时钟速率。</li>
+                </ul>
+                <p><strong>[D5:D4]</strong> - 音调电平[1:0]</p>
+                <p>按下表设置音调信号增益。FS表示满量程数字输出。</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>音调电平[1:0]</th>
+                        <th>幅度</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>±FS</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>±FS/2</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>±FS/4</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>±FS/8</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="register-description">
+                <p><strong>[D3:D2]</strong> - BIST控制点[1:0]</p>
+                <p>这些位控制BIST信号注入位置，如下表：</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>控制点[1:0]</th>
+                        <th>注入点</th>
+                        <th>用于BIST音调频率的Clk</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>Tx输入（数据端口输出）</td>
+                        <td>Tx采样率</td>
+                        <td>仅Tx</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>未使用</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>数据端口输入</td>
+                        <td>Rx采样率</td>
+                        <td>仅Rx</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>未使用</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>©2014 Analog Devices, Inc. 保留所有权利。商标和注册商标是其各自所有者的财产。</p>
+            <p>AD9361寄存器映射参考手册 UG-671</p>
+            <p>更多信息请访问：www.analog.com</p>
+        </div>
+    </div>
+</body>
+</html>
